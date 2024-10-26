@@ -1,14 +1,15 @@
-#include "Chip8.h"
+#include "../include/Chip8.h"
+#include "../include/Chip8_common.h"
 #include <cstdint>
 #include <fstream>
 
 Chip8::Chip8()
 {
     // Initialize the emulator
-    pc = 0x200; // Program counter starts at 0x200
-    opcode = 0; // Reset current opcode
-    index = 0; // Reset index register
-    sp = 0; // Reset stack pointer
+    pc = START_ADDRESS; // Program counter starts at 0x200
+    opcode = 0;         // Reset current opcode
+    index = 0;          // Reset index register
+    sp = 0;             // Reset stack pointer
 
     // Clear display, stack, registers, and memory
     for (int i = 0; i < VIDEO_WIDTH * VIDEO_HEIGHT; i++)
@@ -20,9 +21,9 @@ Chip8::Chip8()
     for (int i = 0; i < MEMORY_SIZE; i++)
         memory[i] = 0;
 
-    // Load fontset into memory
-    for (int i = 0; i < FONTSET_SIZE; i++)
-        memory[i] = chip8_fontset[i];
+	// Load fonts into memory
+	for (unsigned int i = 0; i < FONTSET_SIZE; ++i)
+		memory[FONTSET_START_ADDRESS + i] = fontset[i];
 
     // Reset timers
     delayTimer = 0;
@@ -36,10 +37,10 @@ Chip8::Chip8()
     draw_flag = false;
 }
 
-Chip8::~Chip8()
-{
-    // Destructor (if necessary)
-}
+// Chip8::~Chip8()
+// {
+//     // Destructor (if necessary)
+// }
 
 void Chip8::LoadROM(char const* filename)
 {
