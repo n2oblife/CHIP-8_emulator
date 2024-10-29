@@ -18,8 +18,6 @@ public:
 
 
 
-
-
 private:
     // CHIP-8 registers, memory, and other components
     uint8_t     registers[NUM_REGISTERS];           // General-purpose registers (V0-VF)
