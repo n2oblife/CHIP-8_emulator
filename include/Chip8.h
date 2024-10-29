@@ -16,6 +16,32 @@ public:
     // Load a ROM file into memory
     void LoadROM(char const* filename);
 
+    // Clear display
+    void OP_00E0();
+
+    // Return from a subroutine
+    void OP_00EE();
+
+    // Jump to address NNN
+    void OP_1nnn();
+
+    // Call subroutine at NNN
+    void OP_2nnn();
+
+    // Skip next instruction if Vx == kk
+    void OP_3xkk();
+
+    // Skip next instruction if Vx != kk
+    void OP_4xkk();
+
+    // Skip next instruction if Vx == Vy
+    void OP_5xy0();
+
+    // Set Vx = kk
+    void OP_6xkk();
+
+    // Set Vx = Vx + kk
+    void OP_7xkk();
 
 
 private:
@@ -37,7 +63,7 @@ private:
 
     // Random number generation
     std::default_random_engine randGen;
-    std::uniform_int_distribution<unsigned int> randByte;
+    std::uniform_int_distribution<unsigned int> randByte; // must be cawsted to uint8_t
 
     // Helper methods for opcode processing
     void executeOpcode(uint16_t opcode);  // Execute the current opcode
