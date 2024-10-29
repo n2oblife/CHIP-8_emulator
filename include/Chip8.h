@@ -2,6 +2,7 @@
 
 #include "Chip8_common.h"
 #include <cstdint>
+#include <random>
 
 class Chip8
 {
@@ -11,6 +12,10 @@ public:
 
     // Destructor (if necessary)
     ~Chip8() = default;
+
+    // Load a ROM file into memory
+    void LoadROM(char const* filename);
+
 
 
 
@@ -31,6 +36,10 @@ private:
 
     // Internal flag to track when the screen needs to be updated
     bool        draw_flag;
+
+    // Random number generation
+    std::default_random_engine randGen;
+    std::uniform_int_distribution<unsigned int> randByte;
 
     // Helper methods for opcode processing
     void executeOpcode(uint16_t opcode);  // Execute the current opcode

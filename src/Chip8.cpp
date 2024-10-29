@@ -2,6 +2,8 @@
 #include "../include/Chip8_common.h"
 #include <cstdint>
 #include <fstream>
+#include <chrono>
+
 
 Chip8::Chip8()
 {
@@ -67,4 +69,11 @@ void Chip8::LoadROM(char const* filename)
 		// Free the buffer
 		delete[] buffer;
 	}
+}
+
+Chip8::Chip8()
+    : randGen(std::chrono::system_clock::now().time_since_epoch().count())
+{
+    // Initialize RNG with uniform distribution for bytes
+    randByte = std::uniform_int_distribution<uint8_t>(0, 255U);
 }
