@@ -6,6 +6,7 @@
 // Define memory layout constants
 const unsigned int START_ADDRESS = 0x200;           // Start address for programs
 const unsigned int FONTSET_START_ADDRESS = 0x50;    // Start of the CHIP-8 fontset
+const unsigned int FONT_SIZE = 5;    				// Size of the fontset characters
 const unsigned int MEMORY_SIZE = 4096;              // 4KB of memory
 
 // Define display resolution
@@ -14,8 +15,8 @@ const unsigned int VIDEO_HEIGHT = 32;               // 64x32 pixel monochrome di
 const unsigned int FONTSET_SIZE = 80;               // Size of the CHIP-8 fontset
 const uint8_t fontset[FONTSET_SIZE] =               // CHIP-8 fontset for all inputs 0-F
 {
-	0xF0, 0x90, 0x90, 0x90, 0xF0,       // 0
-	0x20, 0x60, 0x20, 0x20, 0x70,       // 1
+	0xF0, 0x90, 0x90, 0x90, 0xF0,  // 0
+	0x20, 0x60, 0x20, 0x20, 0x70,  // 1
 	0xF0, 0x10, 0xF0, 0x80, 0xF0,  // 2
 	0xF0, 0x10, 0xF0, 0x10, 0xF0,  // 3
 	0x90, 0x90, 0xF0, 0x10, 0x10,  // 4
