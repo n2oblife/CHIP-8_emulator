@@ -63,3 +63,7 @@ lib/
 
 # clang cache
 .cache
+
+# CMake cache
+CMakeCache.txt
+CMakeFiles/
