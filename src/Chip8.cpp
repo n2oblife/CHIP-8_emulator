@@ -1,8 +1,4 @@
-#include <cstdint>
-#include <fstream>
-#include <chrono.h>
 #include "Chip8.h"
-#include "Chip8_common.h"
 
 
 Chip8::Chip8()
