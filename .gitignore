@@ -30,6 +30,8 @@ Build/
 out/
 bin/
 lib/
+CMakeFiles/
+CMakeCache.txt
 
 # Temporary files
 *.tmp
@@ -67,3 +69,7 @@ lib/
 # CMake cache
 CMakeCache.txt
 CMakeFiles/
+
+# git's and vscode's trash
+.cache/
+.vscode/
