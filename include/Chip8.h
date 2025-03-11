@@ -1,7 +1,10 @@
 #pragma once
 
-#include <cstindt>
+#include <cstdint>
 #include <random>
+#include <chrono>
+#include <cstring>
+#include <fstream>
 #include "Chip8_common.h"
 
 class Chip8
@@ -12,6 +15,13 @@ public:
 
     // Destructor (if necessary)
     ~Chip8() = default;
+
+    // -- Getters of the class --
+
+    uint32_t* get_video();
+    uint8_t* get_keypad();
+
+    // -- Actual CPU functions --
 
     // Load a ROM file into memory
     void LoadROM(char const* filename);

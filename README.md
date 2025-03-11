@@ -78,7 +78,7 @@ make
 If successful, the compiled binary will be located in `build/bin/chip8_emulator`.
 
 ## Usage
-Once built, you can load and run a CHIP-8 game ROM by providing the ROM file as a command-line argument:
+Once built, you can load and run a CHIP-8 game ROM ([like this one](https://github.com/corax89/chip8-test-rom)) by providing the ROM file as a command-line argument:
 
 ```bash
 ./build/bin/chip8_emulator path/to/romfile.ch8

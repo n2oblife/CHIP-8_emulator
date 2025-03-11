@@ -1,6 +1,5 @@
 #include "Chip8.h"
 
-
 Chip8::Chip8()
     :randGen(std::chrono::system_clock::now().time_since_epoch().count())
 {
@@ -170,4 +169,12 @@ void Chip8::Cycle()
 	// Decrement the sound timer if it's been set
 	if (soundTimer > 0)
 		--soundTimer;
+}
+
+uint32_t* Chip8::get_video(){
+	return this->video;
+}
+
+uint8_t* Chip8::get_keypad(){
+	return this->keypad;
 }

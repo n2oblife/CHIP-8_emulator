@@ -1,9 +1,8 @@
-#include <chrono>
 #include <iostream>
 #include "Chip8.h"
 #include "Platform.h"
 
-int main(int argc, char__ argv)
+int main(int argc, char** argv)
 {
 	if (argc != 4)
 	{
@@ -20,14 +19,14 @@ int main(int argc, char__ argv)
 	Chip8 chip8;
 	chip8.LoadROM(romFilename);
 
-	int videoPitch = sizeof(chip8.video[0]) * VIDEO_WIDTH;
+	int videoPitch = sizeof(chip8.get_keypad()[0]) * VIDEO_WIDTH;
 
 	auto lastCycleTime = std::chrono::high_resolution_clock::now();
 	bool quit = false;
 
 	while (!quit)
 	{
-		quit = platform.ProcessInput(chip8.keypad);
+		quit = platform.ProcessInput(chip8.get_keypad());
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		float dt = std::chrono::duration<float, std::chrono::milliseconds::period>(currentTime - lastCycleTime).count();
@@ -38,7 +37,7 @@ int main(int argc, char__ argv)
 
 			chip8.Cycle();
 
-			platform.Update(chip8.video, videoPitch);
+			platform.Update(chip8.get_video(), videoPitch);
 		}
 	}
 
