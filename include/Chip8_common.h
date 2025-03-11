@@ -2,6 +2,9 @@
 
 #include <cstdint>
 
+// Default values for Main
+const int DEFAULT_VIDEO_SCALE = 10;
+const int DEFAULT_CYCLE_DELAY = 1;
 
 // Define memory layout constants
 const unsigned int START_ADDRESS = 0x200;           // Start address for programs

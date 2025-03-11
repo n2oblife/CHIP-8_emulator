@@ -4,15 +4,35 @@
 
 int main(int argc, char** argv)
 {
-	if (argc != 4)
+	// Declare variables by default in main scope
+	const char* romFilename = nullptr;
+	int videoScale = DEFAULT_VIDEO_SCALE;
+	int cycleDelay = DEFAULT_CYCLE_DELAY;
+
+	// Default values with only RomFile
+	if (argc == 2)
 	{
-		std::cerr << "Usage: " << argv[0] << " <Scale> <Delay> <ROM>\n";
+		romFilename = argv[1];
+	}
+	else if (argc != 4)
+	{
+		std::cerr << "Usage: " << argv[0] << " <ROM> [Scale] [Delay]\n";
+		std::exit(EXIT_FAILURE);
+	}
+	else
+	{
+		romFilename = argv[1];
+		videoScale = std::stoi(argv[2]);
+		cycleDelay = std::stoi(argv[3]);
+	}
+
+	// Make sure that romFilename is not null
+	if (!romFilename)
+	{
+		std::cerr << "Error: ROM filename is required.\n";
 		std::exit(EXIT_FAILURE);
 	}
 
-	int videoScale = std::stoi(argv[1]);
-	int cycleDelay = std::stoi(argv[2]);
-	char const* romFilename = argv[3];
 
 	Platform platform("CHIP-8 Emulator", VIDEO_WIDTH * videoScale, VIDEO_HEIGHT * videoScale, VIDEO_WIDTH, VIDEO_HEIGHT);
 
