@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-// Default values for Main
+// Default values for Main's arguments
 const int DEFAULT_VIDEO_SCALE = 10;
 const int DEFAULT_CYCLE_DELAY = 1;
 

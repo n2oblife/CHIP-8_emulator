@@ -1,0 +1,2 @@
+% to get the rom to test
+wget https://github.com/corax89/chip8-test-rom/blob/master/test_opcode.ch8

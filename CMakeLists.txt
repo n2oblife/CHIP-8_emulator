@@ -1,6 +1,11 @@
+message(STATUS "======= COMPILATION PIPELINE CHECKS ======")
+
 cmake_minimum_required(VERSION 3.14)
 project(chip8)
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+message(STATUS "======= FETCHING DEPENDENCIES ======")
 
 # Include FetchContent for libraries that need to be fetched
 include(FetchContent)
@@ -33,6 +38,7 @@ else()
     set(SDL2_INCLUDE_DIRS "${SDL2_SOURCE_DIR}/include" "${SDL2_BINARY_DIR}/include")
     set(SDL2_LIBRARIES SDL2-static)
 endif()
+message(STATUS "SDL2 Libraries: ${SDL2_LIBRARIES}")
 
 # Fetch GLAD
 FetchContent_Declare(
@@ -78,8 +84,11 @@ if(NOT imgui_POPULATED)
     endif()
 endif()
 
+message(STATUS "====== BUILDING PROJECT ======")
+
 message(STATUS "Checking source files:")
-foreach(src_file src/Chip8.cpp src/Main.cpp src/Opcodes.cpp src/Platform.cpp)
+set(SRC_FILES src/Chip8.cpp src/Opcodes.cpp src/Platform.cpp)
+foreach(src_file ${SRC_FILES})
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src_file}")
         message(STATUS "  ${src_file} - Found")
     else()
@@ -87,40 +96,71 @@ foreach(src_file src/Chip8.cpp src/Main.cpp src/Opcodes.cpp src/Platform.cpp)
     endif()
 endforeach()
 
-# Define your executable
-add_executable(
-    chip8
-    src/Chip8.cpp
-    src/Main.cpp
-    src/Opcodes.cpp
-    src/Platform.cpp
+# Create a library target for your core code
+message(STATUS "Building chip8 library:")
+add_library(chip8_lib
+    ${SRC_FILES}
 )
 
-# Add include directories
-target_include_directories(chip8 PRIVATE
+target_include_directories(chip8_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${SDL2_INCLUDE_DIRS}
 )
 
-# Compiler options
-target_compile_options(chip8 PRIVATE -Wall)
-
-# Link libraries
-target_link_libraries(chip8 PRIVATE 
+target_link_libraries(chip8_lib PUBLIC 
     glad 
     imgui
 )
 
 # Link SDL2 libraries
 if(SDL2_FOUND)
-    target_link_libraries(chip8 PRIVATE ${SDL2_LIBRARIES})
+    target_link_libraries(chip8_lib PUBLIC ${SDL2_LIBRARIES})
 else()
-    target_link_libraries(chip8 PRIVATE SDL2-static)
+    target_link_libraries(chip8_lib PUBLIC SDL2-static)
 endif()
 
-# Print some debug info at configure time
-message(STATUS "SDL2 Include Dirs: ${SDL2_INCLUDE_DIRS}")
-if(SDL2_FOUND)
-    message(STATUS "SDL2 Libraries: ${SDL2_LIBRARIES}")
-endif()
+message(STATUS "Build binary")
+# Define your executable
+add_executable(chip8
+    src/Main.cpp
+)
+
+# Compiler options
+target_compile_options(chip8 PRIVATE -Wall)
+
+# Link libraries
+target_link_libraries(chip8 PRIVATE chip8_lib)
+
+message(STATUS "====== BUILDING TESTS ======")
+
+message(STATUS "Checking tests files:")
+set(TEST_FILES tests/test_platform.cpp tests/test_opcodes.cpp tests/test_chip8.cpp)
+foreach(test_file ${TEST_FILES})
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_file}")
+        message(STATUS "  ${test_file} - Found")
+    else()
+        message(STATUS "  ${test_file} - NOT FOUND")
+    endif()
+endforeach()
+
+# Testing environment 
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.11.0  # Use a stable version or any other stable release
+)
+FetchContent_MakeAvailable(googletest)
+
+# Define testing executable
+add_executable(chip8_tests
+    ${TEST_FILES}    
+    # tests/test_main.cpp // TODO: consider adding a whole SW test
+)
+
+# Link Google Test to the test executable
+target_link_libraries(chip8_tests PRIVATE chip8_lib gtest gtest_main)
+
+# Register tests with CTest
+enable_testing()
+add_test(NAME Chip8Tests COMMAND chip8_tests)

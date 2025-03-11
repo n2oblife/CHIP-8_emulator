@@ -104,20 +104,34 @@ A S D F
 Z X C V
 ```
 
+## Running Tests
+To run all tests and display failures, use:
+
+```bash
+ctest --output-on-failure
+```
+
+This will execute all test cases and show detailed output if any test fails.
+
+### New tests
+
+Create a New Test File
+Test files should be placed in the tests/ directory and named with the test_*.cpp prefix.
+
+For example:
+
+
+```tests/
+ ├── test_chip8.cpp
+ ├── test_opcodes.cpp
+ ├── test_platform.cpp
+```
+Include Google Test.
+In your test file, include gtest/gtest.h and any required headers from the project.
+
+
 ## Acknowledgments
 Special thanks to [Austin Morlan](https://austinmorlan.com/posts/chip8_emulator/) for his CHIP-8 emulator guide, which inspired and guided this project.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
-
----
-
-### Key Elements in This README
-
-1. **CHIP-8 Overview**: Explains what CHIP-8 is, including memory, registers, and graphical capabilities.
-2. **Project Structure**: Describes how the files and folders are organized.
-3. **Setup and Installation**: Provides clear instructions on installing dependencies and building the emulator.
-4. **Usage**: Covers running the emulator and describes control mappings.
-5. **Acknowledgments**: Gives credit to Austin Morlan's guide, with a link to the source.
-6. **License**: Mentions the license (e.g., MIT), which you can add in a `LICENSE` file.
