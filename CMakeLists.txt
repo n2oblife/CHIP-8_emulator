@@ -2,7 +2,8 @@ message(STATUS "======= COMPILATION PIPELINE CHECKS ======")
 
 cmake_minimum_required(VERSION 3.14)
 project(chip8)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 message(STATUS "======= FETCHING DEPENDENCIES ======")
@@ -87,7 +88,8 @@ endif()
 message(STATUS "====== BUILDING PROJECT ======")
 
 message(STATUS "Checking source files:")
-set(SRC_FILES src/Chip8.cpp src/Opcodes.cpp src/Platform.cpp)
+set(SRC_FILES 
+    src/Chip8.cpp src/Opcodes.cpp src/Platform.cpp)
 foreach(src_file ${SRC_FILES})
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src_file}")
         message(STATUS "  ${src_file} - Found")
@@ -135,7 +137,12 @@ target_link_libraries(chip8 PRIVATE chip8_lib)
 message(STATUS "====== BUILDING TESTS ======")
 
 message(STATUS "Checking tests files:")
-set(TEST_FILES tests/test_platform.cpp tests/test_opcodes.cpp tests/test_chip8.cpp)
+set(TEST_FILES 
+    tests/src/TestPlatform.cpp 
+    tests/src/TestOpcodes.cpp 
+    tests/src/TestChip8.cpp 
+    tests/src/Tests_common.cpp)
+
 foreach(test_file ${TEST_FILES})
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_file}")
         message(STATUS "  ${test_file} - Found")
@@ -155,7 +162,12 @@ FetchContent_MakeAvailable(googletest)
 # Define testing executable
 add_executable(chip8_tests
     ${TEST_FILES}    
-    # tests/test_main.cpp // TODO: consider adding a whole SW test
+    # tests/test_main.cpp // TODO: consider adding a whole SW test (main)
+)
+
+target_include_directories(chip8_tests PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
 )
 
 # Link Google Test to the test executable

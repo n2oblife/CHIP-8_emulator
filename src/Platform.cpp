@@ -43,6 +43,7 @@ bool Platform::ProcessInput(uint8_t* keys)
                 quit = true;
             } break;
 
+            // no handling of undesired keys, considered out of scope
             case SDL_KEYDOWN:
             {
                 switch (event.key.keysym.sym)

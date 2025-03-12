@@ -10,18 +10,20 @@
 class Chip8
 {
 public:
-    // Constructor to initialize the emulator
     Chip8();
-
-    // Destructor (if necessary)
     ~Chip8() = default;
 
-    // -- Getters of the class --
+    // ====== Getters of the class ======
 
-    uint32_t* get_video();
-    uint8_t* get_keypad();
+    inline uint32_t* Chip8::get_video(){
+        return this->video;
+    }
+    
+    inline uint8_t* Chip8::get_keypad(){
+        return this->keypad;
+    }
 
-    // -- Actual CPU functions --
+    // ====== Actual CPU functions ======
 
     // Load a ROM file into memory
     void LoadROM(char const* filename);
@@ -192,6 +194,9 @@ public:
 
 
 private:
+    
+    friend class TestChip8;
+
     // CHIP-8 registers, memory, and other components
     uint8_t     registers[NUM_REGISTERS];           // General-purpose registers (V0-VF)
     uint8_t     memory[MEMORY_SIZE];                // 4KB memory (0x100-0xFFF for programs)
@@ -219,5 +224,9 @@ private:
         Chip8Func table8[0xE + 1];
         Chip8Func tableE[0xE + 1];
         Chip8Func tableF[0x65 + 1];
+
+    // ====== Some private functions for the inside use ======
+
+    std::vector<uint8_t> filenameHandling(char const* filename);
 
 };

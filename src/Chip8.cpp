@@ -1,4 +1,5 @@
 #include "Chip8.h"
+#include <filesystem>
 
 Chip8::Chip8()
     :randGen(std::chrono::system_clock::now().time_since_epoch().count())
@@ -125,29 +126,37 @@ Chip8::Chip8()
 	tableF[0x65] = &Chip8::OP_Fx65;
 }
 
+std::vector<uint8_t> filenameHandling(char const* filename)
+{
+    if (std::filesystem::path(filename).extension() != ".ch8")
+        throw std::runtime_error("The file does not have a .ch8 extension.\n");
+
+    std::ifstream file(filename, std::ios::binary | std::ios::ate);
+    if (!file.is_open())
+        throw std::runtime_error("Failed to open the file, check if it exists or is corrupted\n");
+
+    // Get file size
+    std::streamsize size = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    if (size > MEMORY_SIZE - START_ADDRESS)
+        throw std::runtime_error("The size of the loaded ROM is bigger than actual memory size\n");
+
+    // Read file contents into a vector
+    std::vector<uint8_t> buffer(size);
+    if (!file.read(reinterpret_cast<char*>(buffer.data()), size))
+        throw std::runtime_error("Failed to read the file contents.\n");
+
+    return buffer;
+}
+
+
 void Chip8::LoadROM(char const* filename)
 {
-	// Open the file as a stream of binary and move the file pointer to the end
-	std::ifstream file(filename, std::ios::binary | std::ios::ate);
+    auto buffer = filenameHandling(filename);
 
-	if (file.is_open())
-	{
-		// Get size of file and allocate a buffer to hold the contents
-		std::streampos size = file.tellg();
-		char* buffer = new char[size];
-
-		// Go back to the beginning of the file and fill the buffer
-		file.seekg(0, std::ios::beg);
-		file.read(buffer, size);
-		file.close();
-
-		// Load the ROM contents into the Chip8's memory, starting at 0x200
-		for (long i = 0; i < size; ++i)
-			memory[START_ADDRESS + i] = buffer[i];
-
-		// Free the buffer
-		delete[] buffer;
-	}
+    // Load ROM contents into memory starting at 0x200
+    std::copy(buffer.begin(), buffer.end(), memory + START_ADDRESS)
 }
 
 void Chip8::Cycle()
@@ -169,12 +178,4 @@ void Chip8::Cycle()
 	// Decrement the sound timer if it's been set
 	if (soundTimer > 0)
 		--soundTimer;
-}
-
-uint32_t* Chip8::get_video(){
-	return this->video;
-}
-
-uint8_t* Chip8::get_keypad(){
-	return this->keypad;
 }

@@ -75,3 +75,6 @@ CMakeFiles/
 # git's and vscode's trash
 .cache/
 .vscode/
+
+# tests folders
+Testing/

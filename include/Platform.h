@@ -7,16 +7,17 @@
 class Platform
 {
     public:
-    Platform(char const* title, int windowWidth, int windowHeight, int textureWidth, int textureHeight);
+        Platform(char const* title, int windowWidth, int windowHeight, int textureWidth, int textureHeight);
 
-    ~Platform();
+        ~Platform();
 
-    void Update(void const* buffer, int pitch);
+        void Update(void const* buffer, int pitch);
 
-    bool ProcessInput(uint8_t* keys);
+        bool ProcessInput(uint8_t* keys);
 
     private:
-	SDL_Window* window{};
-	SDL_Renderer* renderer{};
-	SDL_Texture* texture{};
+        friend class TestPlatform;
+        SDL_Window* window{};
+        SDL_Renderer* renderer{};
+        SDL_Texture* texture{};
 };

@@ -1,24 +1,29 @@
 #include "Platform.h"
-#include <gtest/gtest.h>
-#include <SDL2/SDL.h>
+#include "Tests_common.h"
 
-// TODO: should look at formal testing to handle all the cases
+class TestPlatform : public  ::testing::Test
+{
+protected:
+    Platform Platform("Test", 640, 320, 64, 32);
+    uint8_t keys[NUM_KEYS] = {0};
+    SDL_Event event;
+
+    void SetUp() override {}
+
+    void TearDown() override {}
+};
 
 // ====== Testing base class functions ======
 
 // This test checks whether the Platform object can be created and destroyed without crashing.
-TEST(PlatformTest, ConstructorDestructor) {
+TEST_F(TestPlatform, ConstructorDestructor) {
     Platform platform("Test", 640, 320, 64, 32);
 }
 
 // ====== Testing input handling ======
 
-TEST(PlatformTest, ProcessInputKeyDown) {
-    Platform platform("Test", 640, 320, 64, 32);
-    uint8_t keys[NUM_KEYS] = {0};
-
+TEST_F(TestPlatform, ProcessInputKeyDown) {
     // Simulate a key press event for key 'x'
-    SDL_Event event;
     event.type = SDL_KEYDOWN;
     event.key.keysym.sym = SDLK_x;
     SDL_PushEvent(&event);  // Push the event into SDL's queue
@@ -33,12 +38,8 @@ TEST(PlatformTest, ProcessInputKeyDown) {
         EXPECT_EQ(keys[i], 0) << "key " << i << " is considered pressed"; 
 }
 
-TEST(PlatformTest, ProcessInputKeyUp) {
-    Platform platform("Test", 640, 320, 64, 32);
-    uint8_t keys[NUM_KEYS] = {0};
-
+TEST_F(TestPlatform, ProcessInputKeyUp) {
     // Simulate a key press and release event for key 'x'
-    SDL_Event event;
     event.type = SDL_KEYDOWN;
     event.key.keysym.sym = SDLK_x;
     SDL_PushEvent(&event);
@@ -59,13 +60,9 @@ TEST(PlatformTest, ProcessInputKeyUp) {
 }
 
 
-TEST(PlatformTest, ProcessInputKeyOutBound) {
-    Platform platform("Test", 640, 320, 64, 32);
-    uint8_t keys[NUM_KEYS] = {0};
-
+TEST_F(TestPlatform, ProcessInputKeyOutBound) {
     // Simulate a key press and release event for key 'b'
     // this key is not handled by the emulator
-    SDL_Event event;
     event.type = SDL_KEYDOWN;
     event.key.keysym.sym = SDLK_b;
     SDL_PushEvent(&event);
@@ -82,12 +79,8 @@ TEST(PlatformTest, ProcessInputKeyOutBound) {
         EXPECT_EQ(keys[i], 0) << "key " << i << " is considered pressed";
 }
 
-TEST(PlatformTest, ProcessInputQuitEvent) {
-    Platform platform("Test", 640, 320, 64, 32);
-    uint8_t keys[NUM_KEYS] = {0};
-
+TEST_F(TestPlatform, ProcessInputQuitEvent) {
     // Simulate SDL_QUIT event
-    SDL_Event event;
     event.type = SDL_QUIT;
     SDL_PushEvent(&event);
 
@@ -95,12 +88,11 @@ TEST(PlatformTest, ProcessInputQuitEvent) {
     EXPECT_TRUE(quit) << "Platform::ProcessInput didn't request quit";
 }
 
+// TODO: improve testing with some random data
 
 // ====== Testing Update ======
 
-TEST(PlatformTest, UpdateRunsWithoutCrash) {
-    Platform platform("Test", 640, 320, 64, 32);
-
+TEST_F(TestPlatform, UpdateRunsWithoutCrash) {
     // Create a dummy buffer
     uint32_t buffer[64 * 32] = {0};
     platform.Update(buffer, 64 * sizeof(uint32_t));
