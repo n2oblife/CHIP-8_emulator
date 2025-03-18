@@ -77,4 +77,9 @@ CMakeFiles/
 .vscode/
 
 # tests folders
-Testing/
+[tT]esting/
+log*/
+test_detail.xml
+test_detail.json
+*[rR][eE][pP][oO][rR][tT]*.xml
+*[rR][eE][pP][oO][rR][tT]*.json

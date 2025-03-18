@@ -192,6 +192,6 @@ target_link_libraries(chip8_tests PRIVATE
 
 # Register the tests with CTest
 enable_testing()
+# add_test(NAME Chip8Tests COMMAND chip8_tests)
 add_test(NAME Chip8Tests COMMAND chip8_tests)
-# add_test(NAME Chip8Tests COMMAND chip8_tests --output-on-failure --gtest_output ${CMAKE_CURRENT_SOURCE_DIR}/build/reports.xml)
 

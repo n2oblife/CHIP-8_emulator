@@ -12,13 +12,13 @@ protected:
 
     void TearDown() override {}
 
-    void KeyDown(SDL_Event event, const int key) {
+    inline void KeyDown(SDL_Event& event, const int key) {
         event.type = SDL_KEYDOWN;
         event.key.keysym.sym = key;
         SDL_PushEvent(&event);  // Push the event into SDL's queue
     }
 
-    void KeyUp(SDL_Event event) {
+    inline void KeyUp(SDL_Event& event) {
         event.type = SDL_KEYUP;
         SDL_PushEvent(&event);
     }
@@ -34,12 +34,7 @@ TEST_F(TestPlatform, ConstructorDestructor) {
 // ====== Testing input handling ======
 
 TEST_F(TestPlatform, ProcessInputKeyDown) {
-    // // Simulate a key press event for key 'x'
-    // event.type = SDL_KEYDOWN;
-    // event.key.keysym.sym = SDLK_x;
-    // SDL_PushEvent(&event);  // Push the event into SDL's queue
     KeyDown(event, (int)'x');
-
     platform.ProcessInput(keys);
 
     // Key x should be marked as pressed and no other
@@ -51,20 +46,14 @@ TEST_F(TestPlatform, ProcessInputKeyDown) {
 }
 
 TEST_F(TestPlatform, ProcessInputKeyUp) {
-    // Simulate a key press and release event for key 'x'
-    event.type = SDL_KEYDOWN;
-    event.key.keysym.sym = SDLK_x;
-    SDL_PushEvent(&event);
-
+    KeyDown(event, (int)'x');
     platform.ProcessInput(keys);
 
     EXPECT_EQ(keys[0], 1) << "key x is not considered pressed";
     for (int i=1; i<NUM_KEYS; i++)
         EXPECT_EQ(keys[i], 0) << "key " << i << " is considered pressed";
 
-    event.type = SDL_KEYUP;
-    SDL_PushEvent(&event);
-    
+    KeyUp(event);    
     platform.ProcessInput(keys);
 
     for (int i=0; i<NUM_KEYS; i++)
@@ -73,20 +62,16 @@ TEST_F(TestPlatform, ProcessInputKeyUp) {
 
 
 TEST_F(TestPlatform, ProcessInputKeyOutBound) {
-    // Simulate a key press and release event for key 'b'
-    // this key is not handled by the emulator
-    event.type = SDL_KEYDOWN;
-    event.key.keysym.sym = SDLK_b;
-    SDL_PushEvent(&event);
-
+    // 'b' is not handled by the emulator
+    KeyDown(event, (int)'b');
     platform.ProcessInput(keys);
+
     for (int i=0; i<NUM_KEYS; i++)
         EXPECT_EQ(keys[i], 0) << "key " << i << " is considered pressed";
 
-    event.type = SDL_KEYUP;
-    SDL_PushEvent(&event);
-    
+    KeyUp(event);
     platform.ProcessInput(keys);
+
     for (int i=0; i<NUM_KEYS; i++)
         EXPECT_EQ(keys[i], 0) << "key " << i << " is considered pressed";
 }
