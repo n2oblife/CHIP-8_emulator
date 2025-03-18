@@ -20,8 +20,13 @@ TARGET := $(BIN_DIR)/chip8
 TARGET_TESTS := $(BIN_DIR)/chip8_tests
 
 # Reports
-REPORT = log/tests_reports.xml
-EXTENSION = $(patsubst .%,%,$(suffix $(REPORT)))
+REPORT_PREFIX = log/reports
+EXTENSION = xml #xml or json
+# EXTENSION = $(patsubst .%,%,$(suffix $(REPORT)))
+TIMESTAMP = $(shell date +'%Y%m%d_%H%M%S')  # Current timestamp
+COMMIT_HASH = $(shell git rev-parse --short HEAD)  # Git commit hash
+# REPORT = $(REPORT_PREFIX)_$(COMMIT_HASH)_$(TIMESTAMP).$(EXTENSION)
+REPORT = $(REPORT_PREFIX)_$(strip $(COMMIT_HASH))_$(strip $(TIMESTAMP)).$(EXTENSION)
 
 
 .PHONY: all
@@ -55,13 +60,13 @@ clean:
 .PHONY: tests
 tests:
 	@echo "====== Running tests... ======"
-	@$(TARGET_TESTS) --gtest_output=$(EXTENSION):$(REPORT)
+	$(TARGET_TESTS) --gtest_output=$(strip $(EXTENSION)):$(REPORT)
 	@echo "Results saved in $(REPORT)"
 	@echo "====== Tests complete! ======"
 
 # TODO: not finished, need to download rom and load it
-.PHONY: launch
-launch:
-	@echo "====== Launching target... ======"
-	@${TARGET}
+.PHONY: run
+run:
+	@echo "====== Launching target with ROM file: $(word 2, $(MAKECMDGOALS)) ======"
+	@${TARGET} $(word 2, $(MAKECMDGOALS))
 	@echo "====== Launch complete! ======"

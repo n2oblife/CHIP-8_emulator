@@ -27,13 +27,24 @@ std::array<T, size> generateRandomData() {
 }
 
 template<typename T = uint8_t, size_t size = 8>
-std::array<T, size> generateTempFile(const std::string& tempFilePath) {
-    // Create a known test file
-    std::array<T, size> testData = generateRandomData<T, size>();
-
+void writeFile(const std::string& tempFilePath, const std::array<T, size>& testData) {
     std::ofstream outFile(tempFilePath, std::ios::binary);
-    if (!outFile.is_open()) throw std::runtime_error("Failed to create test file");
+    if (!outFile.is_open()) {
+        throw std::runtime_error("Failed to create test file: " + tempFilePath);
+    }
+
     outFile.write(reinterpret_cast<const char*>(testData.data()), testData.size());
+    if (!outFile) {
+        throw std::runtime_error("Failed to write to file: " + tempFilePath);
+    }
+
     outFile.close();
+}
+
+// Use generateRandomData() to generate the tempFile
+template<typename T = uint8_t, size_t size = 8>
+std::array<T, size> generateTempFile(const std::string& tempFilePath) {
+    std::array<T, size> testData = generateRandomData<T, size>();
+    writeFile(tempFilePath, testData);
     return testData;
 }
