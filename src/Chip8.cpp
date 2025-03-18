@@ -65,8 +65,9 @@ void Chip8::Cycle()
 		--soundTimer;
 }
 
-void Chip8::InitializeTables() {
-	// Fill all tables with OP_NULL
+void Chip8::InitializeTables()
+{
+    // Fill all tables with OP_NULL
 	table.fill(&Chip8::OP_NULL);
 	table0.fill(&Chip8::OP_NULL);
 	table8.fill(&Chip8::OP_NULL);
@@ -122,7 +123,7 @@ void Chip8::InitializeTables() {
 	tableF[0x65] = &Chip8::OP_Fx65;
 }
 
-std::vector<uint8_t> filenameHandling(const std::string& filename)
+std::vector<uint8_t> Chip8::filenameHandling(const std::string& filename)
 {
     if (std::filesystem::path(filename).extension() != ".ch8")
         throw std::runtime_error("The file does not have a .ch8 extension or doesn't exist.\n");

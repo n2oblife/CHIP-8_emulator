@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 
 	while (!quit)
 	{
-		quit = platform.ProcessInput(chip8.get_keypad());
+		quit = platform.ProcessInput(chip8.get_keypad().data());
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		float dt = std::chrono::duration<float, std::chrono::milliseconds::period>(currentTime - lastCycleTime).count();
@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 
 			chip8.Cycle();
 
-			platform.Update(chip8.get_video(), videoPitch);
+			platform.Update(chip8.get_video().data(), videoPitch);
 		}
 	}
 

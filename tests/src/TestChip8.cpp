@@ -37,13 +37,13 @@ TEST_F(TestChip8, ConstructorDestructor) {
 }
 
 TEST_F(TestChip8, GetVideo) {
-    auto testData = generateRandomData<uint32_t>(VIDEO_WIDTH * VIDEO_HEIGHT);
+    auto testData = generateRandomData<uint32_t, VIDEO_WIDTH * VIDEO_HEIGHT>();
     std::copy(testData.begin(), testData.end(), get_video().begin());  // Fill the video array
     ASSERT_EQ(chip8.get_video(), testData) << "The video geter is broken\n";
 }
 
 TEST_F(TestChip8, GetKeypad) {
-    auto testData = generateRandomData<uint8_t>(NUM_KEYS);
+    auto testData = generateRandomData<uint8_t, NUM_KEYS>();
     std::copy(testData.begin(), testData.end(), get_keypad().begin());  // Fill the keypad array
     ASSERT_EQ(chip8.get_keypad(), testData) << "The keypad geter is broken\n";
 }

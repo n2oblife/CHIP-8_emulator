@@ -57,10 +57,10 @@ CHIP-8_emulator/
 - **`Makefile`**: Build instructions for the project.
 
 ## Setup and Installation
-This emulator is built using C++17 and requires the SDL2 library for rendering and input handling.
+This emulator is built using C++20 and requires the SDL2 library for rendering and input handling.
 
 ### Prerequisites
-- **C++17** compiler (e.g., `g++`)
+- **C++20** compiler (e.g., `g++`)
 - **SDL2** library installed on your system
 
 #### On Ubuntu

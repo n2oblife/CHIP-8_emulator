@@ -86,3 +86,12 @@ clean:
 depend:
 	@echo "Checking dependencies..."
 	@pkg-config --exists sdl2 && echo "SDL2 found!" || echo "SDL2 not found, will build from source."
+
+# Use cmake to build
+.PHONY: project
+project:
+	@echo "====== Configuring project with CMake... ======"
+	@cmake -S . -B build
+	@echo "====== Building project... ======"
+	@cmake --build build
+	@echo "====== Build complete! ======"

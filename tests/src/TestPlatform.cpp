@@ -1,6 +1,6 @@
 #include "Platform.h"
 #include "Tests_common.h"
-
+// TODO: change the functions with keyup and down
 class TestPlatform : public  ::testing::Test
 {
 protected:
@@ -11,6 +11,17 @@ protected:
     void SetUp() override {}
 
     void TearDown() override {}
+
+    void KeyDown(SDL_Event event, const int key) {
+        event.type = SDL_KEYDOWN;
+        event.key.keysym.sym = key;
+        SDL_PushEvent(&event);  // Push the event into SDL's queue
+    }
+
+    void KeyUp(SDL_Event event) {
+        event.type = SDL_KEYUP;
+        SDL_PushEvent(&event);
+    }
 };
 
 // ====== Testing base class functions ======
@@ -23,10 +34,11 @@ TEST_F(TestPlatform, ConstructorDestructor) {
 // ====== Testing input handling ======
 
 TEST_F(TestPlatform, ProcessInputKeyDown) {
-    // Simulate a key press event for key 'x'
-    event.type = SDL_KEYDOWN;
-    event.key.keysym.sym = SDLK_x;
-    SDL_PushEvent(&event);  // Push the event into SDL's queue
+    // // Simulate a key press event for key 'x'
+    // event.type = SDL_KEYDOWN;
+    // event.key.keysym.sym = SDLK_x;
+    // SDL_PushEvent(&event);  // Push the event into SDL's queue
+    KeyDown(event, (int)'x');
 
     platform.ProcessInput(keys);
 

@@ -66,7 +66,6 @@ if(NOT imgui_POPULATED)
         ${imgui_SOURCE_DIR}/imgui_draw.cpp
         ${imgui_SOURCE_DIR}/imgui_tables.cpp
         ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-        # Include SDL implementation files
         ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.cpp
         ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
     )
@@ -77,7 +76,6 @@ if(NOT imgui_POPULATED)
         ${SDL2_INCLUDE_DIRS}
     )
     
-    # Link with SDL2 libraries
     if(SDL2_FOUND)
         target_link_libraries(imgui PUBLIC ${SDL2_LIBRARIES})
     else()
@@ -98,7 +96,6 @@ foreach(src_file ${SRC_FILES})
     endif()
 endforeach()
 
-# Create a library target for your core code
 message(STATUS "Building chip8 library:")
 add_library(chip8_lib
     ${SRC_FILES}
@@ -115,7 +112,6 @@ target_link_libraries(chip8_lib PUBLIC
     imgui
 )
 
-# Link SDL2 libraries
 if(SDL2_FOUND)
     target_link_libraries(chip8_lib PUBLIC ${SDL2_LIBRARIES})
 else()
@@ -123,20 +119,17 @@ else()
 endif()
 
 message(STATUS "Build binary")
-# Define your executable
 add_executable(chip8
-    src/Main.cpp
+    src/main.cpp
 )
 
-# Compiler options
 target_compile_options(chip8 PRIVATE -Wall)
 
-# Link libraries
 target_link_libraries(chip8 PRIVATE chip8_lib)
 
 message(STATUS "====== BUILDING TESTS ======")
 
-message(STATUS "Checking tests files:")
+# Define your test source files
 set(TEST_FILES 
     tests/src/TestPlatform.cpp 
     tests/src/TestOpcodes.cpp 
@@ -151,7 +144,7 @@ foreach(test_file ${TEST_FILES})
     endif()
 endforeach()
 
-# Testing environment 
+# Testing environment setup (GoogleTest)
 FetchContent_Declare(
     googletest
     GIT_REPOSITORY https://github.com/google/googletest.git
@@ -159,9 +152,30 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-# Define testing executable
+# Create a test library target
+# message(STATUS "Building chip8 test library:")
+
+# Create a library target for the test code
+# add_library(chip8_test_lib STATIC
+#     ${TEST_LIB_FILES}
+# )
+
+# Make sure that the include directories for the tests are set correctly
+# target_include_directories(chip8_test_lib PUBLIC
+#     ${CMAKE_CURRENT_SOURCE_DIR}/tests/src
+#     ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
+# )
+
+# Link the GoogleTest libraries to the test library
+# target_link_libraries(chip8_test_lib PUBLIC
+#     gtest
+#     gtest_main
+#     chip8_lib  # Link to your core chip8 library (make sure this is defined elsewhere)
+# )
+
+# Define the test executable
 add_executable(chip8_tests
-    ${TEST_FILES}    
+    ${TEST_FILES}
     # tests/test_main.cpp // TODO: consider adding a whole SW test (main)
 )
 
@@ -170,9 +184,14 @@ target_include_directories(chip8_tests PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
 )
 
-# Link Google Test to the test executable
-target_link_libraries(chip8_tests PRIVATE chip8_lib gtest gtest_main)
 
-# Register tests with CTest
+# Link the test library and other dependencies
+target_link_libraries(chip8_tests PRIVATE 
+    chip8_lib gtest gtest_main
+)
+
+# Register the tests with CTest
 enable_testing()
 add_test(NAME Chip8Tests COMMAND chip8_tests)
+# add_test(NAME Chip8Tests COMMAND chip8_tests --output-on-failure --gtest_output ${CMAKE_CURRENT_SOURCE_DIR}/build/reports.xml)
+
