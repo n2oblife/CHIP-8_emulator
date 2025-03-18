@@ -4,7 +4,7 @@
 class TestPlatform : public  ::testing::Test
 {
 protected:
-    Platform Platform("Test", 640, 320, 64, 32);
+    Platform platform = Platform("Test", 640, 320, 64, 32);
     uint8_t keys[NUM_KEYS] = {0};
     SDL_Event event;
 

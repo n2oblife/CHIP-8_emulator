@@ -1,8 +1,9 @@
 #include "Chip8.h"
+//TODO: adapt this file to C++ standards with std::arrays instead of raw arrays
 
 void Chip8::OP_00E0()
 {
-	memset(video, 0, sizeof(video));
+	video.fill(0);
 }
 
 void Chip8::OP_00EE()

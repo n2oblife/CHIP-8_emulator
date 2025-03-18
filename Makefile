@@ -1,7 +1,7 @@
 # TODO: handle tests and library building
 # Compiler and flags
 CXX := g++
-CXXFLAGS := -std=c++17 -Wall
+CXXFLAGS := -std=c++20 -Wall
 
 # Directories
 SRC_DIR := src

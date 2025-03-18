@@ -5,6 +5,8 @@
 #include <chrono>
 #include <cstring>
 #include <fstream>
+#include <filesystem>
+
 #include "Chip8_common.h"
 
 class Chip8
@@ -14,19 +16,19 @@ public:
     ~Chip8() = default;
 
     // ====== Getters of the class ======
-
-    inline uint32_t* Chip8::get_video(){
-        return this->video;
-    }
     
-    inline uint8_t* Chip8::get_keypad(){
+    inline std::array<uint8_t, NUM_KEYS> get_keypad() const { 
         return this->keypad;
+    }
+
+    inline std::array<uint32_t, VIDEO_HEIGHT*VIDEO_WIDTH> get_video() const { 
+        return this->video;
     }
 
     // ====== Actual CPU functions ======
 
     // Load a ROM file into memory
-    void LoadROM(char const* filename);
+    void LoadROM(const std::string&  filename);
 
     // Clear display
     void OP_00E0();
@@ -195,20 +197,18 @@ public:
 
 private:
     
-    friend class TestChip8;
-
     // CHIP-8 registers, memory, and other components
-    uint8_t     registers[NUM_REGISTERS];           // General-purpose registers (V0-VF)
-    uint8_t     memory[MEMORY_SIZE];                // 4KB memory (0x100-0xFFF for programs)
-    uint16_t    index;                              // Index register (I)
-    uint16_t    pc;                                 // Program counter (PC)
-    uint16_t    stack[STACK_SIZE];                  // Stack for subroutine calls
-    uint8_t     sp;                                 // Stack pointer
-    uint8_t     delayTimer;                         // Delay timer
-    uint8_t     soundTimer;                         // Sound timer
-    uint8_t     keypad[NUM_KEYS];                   // Input keypad state (16 keys, 0-F)
-    uint32_t    video[VIDEO_WIDTH * VIDEO_HEIGHT];  // 64x32 pixel monochrome display
-    uint16_t    opcode;                             // Current opcode
+    std::array<uint8_t, NUM_REGISTERS> registers;           // General-purpose registers (V0-VF)
+    std::array<uint8_t, MEMORY_SIZE> memory;                // 4KB memory (0x100-0xFFF for programs)
+    uint16_t    index;                                      // Index register (I)
+    uint16_t    pc;                                         // Program counter (PC)
+    std::array<uint16_t, STACK_SIZE> stack;                 // Stack for subroutine calls
+    uint8_t     sp;                                         // Stack pointer
+    uint8_t     delayTimer;                                 // Delay timer
+    uint8_t     soundTimer;                                 // Sound timer
+    std::array<uint8_t, NUM_KEYS> keypad;                   // Input keypad state (16 keys, 0-F)
+    std::array<uint32_t, VIDEO_HEIGHT*VIDEO_WIDTH> video;   // 64x32 pixel monochrome display
+    uint16_t    opcode;                                     // Current opcode
 
     // Internal flag to track when the screen needs to be updated
     bool        draw_flag;
@@ -218,15 +218,22 @@ private:
     std::uniform_int_distribution<unsigned int> randByte; // must be cawsted to uint8_t
 
     // Opcode table functions definitions with overhead because many unused memory
-    typedef void (Chip8::*Chip8Func)();
-        Chip8Func table[0xF + 1];
-        Chip8Func table0[0xE + 1];
-        Chip8Func table8[0xE + 1];
-        Chip8Func tableE[0xE + 1];
-        Chip8Func tableF[0x65 + 1];
+    using Chip8Func = void (Chip8::*)();
 
-    // ====== Some private functions for the inside use ======
+    std::array<Chip8Func, 0x10> table{};   // 0x0 - 0xF
+    std::array<Chip8Func, 0xF + 1> table0{};
+    std::array<Chip8Func, 0xF + 1> table8{};
+    std::array<Chip8Func, 0xF + 1> tableE{};
+    std::array<Chip8Func, 0x66> tableF{};  // 0x0 - 0x65
 
-    std::vector<uint8_t> filenameHandling(char const* filename);
+
+    // Check viability of ROM before loading it
+    std::vector<uint8_t> filenameHandling(const std::string& filename);
+
+    void InitializeTables();
+
+    // ====== Friends to the tests ======
+
+    friend class TestChip8;
 
 };

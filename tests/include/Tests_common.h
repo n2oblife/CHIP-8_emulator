@@ -15,4 +15,4 @@ std::vector<T> generateRandomData(size_t size=8);
 
 // Uses the generateRandomData function
 template<typename T=uint8_t>
-void generateTempFile(const std::string& tempFilePath, size_t size=8);
+std::vector<T> generateTempFile(const std::string& tempFilePath, size_t size=8);

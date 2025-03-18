@@ -18,7 +18,7 @@ std::vector<T> generateRandomData(size_t size=8) {
 }
 
 template<typename T=uint8_t>
-void generateTempFile(const std::string& tempFilePath, size_t size=8) {
+std::vector<T> generateTempFile(const std::string& tempFilePath, size_t size=8) {
     // Create a known test file
     std::vector<T> testData = generateRandomData<T>(size);
 
@@ -26,4 +26,5 @@ void generateTempFile(const std::string& tempFilePath, size_t size=8) {
     if (!outFile.is_open()) throw std::runtime_error("Failed to create test file");
     outFile.write(reinterpret_cast<const char*>(testData.data()), testData.size());
     outFile.close();
+    return testData;
 }
