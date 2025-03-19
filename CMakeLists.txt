@@ -133,8 +133,8 @@ message(STATUS "====== BUILDING TESTS ======")
 set(TEST_FILES 
     tests/src/TestPlatform.cpp 
     tests/src/TestOpcodes.cpp 
-    tests/src/TestChip8.cpp 
-    tests/src/Tests_common.cpp)
+    tests/src/TestChip8.cpp
+)
 
 foreach(test_file ${TEST_FILES})
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_file}")
@@ -152,27 +152,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-# Create a test library target
-# message(STATUS "Building chip8 test library:")
-
-# Create a library target for the test code
-# add_library(chip8_test_lib STATIC
-#     ${TEST_LIB_FILES}
-# )
-
-# Make sure that the include directories for the tests are set correctly
-# target_include_directories(chip8_test_lib PUBLIC
-#     ${CMAKE_CURRENT_SOURCE_DIR}/tests/src
-#     ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
-# )
-
-# Link the GoogleTest libraries to the test library
-# target_link_libraries(chip8_test_lib PUBLIC
-#     gtest
-#     gtest_main
-#     chip8_lib  # Link to your core chip8 library (make sure this is defined elsewhere)
-# )
-
 # Define the test executable
 add_executable(chip8_tests
     ${TEST_FILES}
@@ -183,7 +162,6 @@ target_include_directories(chip8_tests PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/src
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
 )
-
 
 # Link the test library and other dependencies
 target_link_libraries(chip8_tests PRIVATE 

@@ -7,6 +7,8 @@
 #include <random>
 #include <fstream>
 #include <stdexcept>
+#include <sstream>
+
 // #include <limits>
 
 // TODO: should look at formal testing to handle all the cases
@@ -47,4 +49,15 @@ std::array<T, size> generateTempFile(const std::string& tempFilePath) {
     std::array<T, size> testData = generateRandomData<T, size>();
     writeFile(tempFilePath, testData);
     return testData;
+}
+
+template<typename T, size_t size>
+std::string printHexArray(const std::array<T, size>& arr) {
+    std::ostringstream oss;
+    oss << "[ ";
+    for (const auto& val : arr) {
+        oss << "0x" << std::hex << static_cast<int>(val) << " ";
+    }
+    oss << "]";
+    return oss.str();
 }

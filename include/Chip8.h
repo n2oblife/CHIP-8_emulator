@@ -229,7 +229,7 @@ private:
 
     // Check viability of ROM before loading it
     std::vector<uint8_t> filenameHandling(const std::string& filename);
-
+    void InitChip8();
     void InitializeTables();
 
     // ====== Friends to the tests ======

@@ -1,53 +1,5 @@
-#include "Chip8.h"
-#include "Tests_common.h"
+#include "TestChip8.h"
 
-class TestChip8 : public testing::Test
-{
-protected:
-    Chip8 chip8;
-    uint8_t keys[NUM_KEYS] = {0};
-    SDL_Event event;
-    std::string tempFilePath = "";
-
-    void SetUp() override {};
-
-    void TearDown() override {
-        if (std::filesystem::exists(tempFilePath))
-            std::filesystem::remove(tempFilePath);
-        if (tempFilePath != "")
-            tempFilePath = "";
-    };
-
-    // ====== Friends to get access to private parameters ======
-
-    inline std::array<uint32_t, VIDEO_HEIGHT * VIDEO_WIDTH>& get_video() {
-        return chip8.video;  // Return a reference to the video array
-    }
-    
-    inline std::array<uint8_t, NUM_KEYS>& get_keypad() {
-        return chip8.keypad;  // Return a reference to the keypad array
-    }
-
-    inline std::array<uint8_t, MEMORY_SIZE>& get_memory() {
-        return chip8.memory;
-    }
-
-    inline uint16_t& get_opcode() {
-        return chip8.opcode;
-    }
-
-    inline uint16_t& get_pc() {
-        return chip8.pc;
-    }
-
-    inline uint8_t& get_delayTimer() {
-        return chip8.delayTimer;
-    }
-
-    inline uint8_t& get_soundTimer() {
-        return chip8.soundTimer;
-    }
-};
 
 // ====== Testing base class functions ======
 
@@ -107,6 +59,8 @@ TEST_F(TestChip8, LoadingRom) {
     ASSERT_TRUE(correctly_loaded) << "Data loaded in memory is not equal to the ROM.\n";
 }
 
+// ====== Testing Cycle function ======
+
 TEST_F(TestChip8, CycleFetchExec) {
     tempFilePath = "./temp_file.ch8";
     auto testData = generateTempFile(tempFilePath);
@@ -115,7 +69,7 @@ TEST_F(TestChip8, CycleFetchExec) {
     
     
     for (int i=1; i<testData.size()/2; i++){
-        chip8.Cycle(0);
+        chip8.Cycle();
         ASSERT_EQ(get_opcode(), testData[2*i] << 8u | testData[2*i + 1])
         << "Opcode mismatch at cycle " << i
         << ". Expected: " << std::hex << (testData[2*i] << 8u | testData[2*i + 1]) 
@@ -133,21 +87,34 @@ TEST_F(TestChip8, CycleFetchExec) {
     ASSERT_EQ(get_soundTimer(), 0) << "Sound timer was unexpectedly modified.\n";
 }
 
+TEST_F(TestChip8, TableCall) {
+    tempFilePath = "./temp_file.ch8";
+    std::array<uint8_t, 2> testData = {0x00, 0x01};
+    writeFile(tempFilePath, testData);    
+    chip8.LoadROM(tempFilePath); 
+
+    // TODO: check correct function is called through table system 
+    // I think it's broken
+}
+
 TEST_F(TestChip8, CycleTimers) {
-    // Setup: Load a known opcode and set timers to a non-zero value
-    uint16_t opcode = 0x1234;  // This could be any opcode that doesn't modify the timers
-    chip8.memory[0x200] = (opcode >> 8) & 0xFF;
-    chip8.memory[0x201] = opcode & 0xFF;
-    chip8.pc = 0x200;
+    tempFilePath = "./temp_file.ch8";
+    std::array<uint8_t, 8> testData;
+    testData.fill(0x00);  // Changed to a valid NOP-equivalent opcode
+    for (size_t i = 1; i < testData.size(); i += 2) {
+        testData[i] = 0x01; // Second byte of opcode
+    }
+    writeFile(tempFilePath, testData);    
+    chip8.LoadROM(tempFilePath);
     
-    // Set the timers to 5 (non-zero values)
-    chip8.delayTimer = 5;
-    chip8.soundTimer = 5;
+    // Set the timers to a non-zero values
+    get_delayTimer() = testData.size()/2;
+    get_soundTimer() = testData.size()/2;
 
-    // Call the Cycle function
-    chip8.Cycle();
+    for (int i=1; i<testData.size()/2; i++){
+        chip8.Cycle();
 
-    // Verify that the timers have been decremented by 1
-    EXPECT_EQ(chip8.delayTimer, 4) << "Delay timer was not decremented.";
-    EXPECT_EQ(chip8.soundTimer, 4) << "Sound timer was not decremented.";
+        EXPECT_EQ(get_delayTimer(), testData.size()/2-i) << "Delay timer was not decremented.";
+        EXPECT_EQ(get_soundTimer(), testData.size()/2-i) << "Sound timer was not decremented.";
+    }
 }
