@@ -8,10 +8,18 @@
 #include <fstream>
 #include <stdexcept>
 #include <sstream>
-
-// #include <limits>
+#include <limits>
 
 // TODO: should look at formal testing to handle all the cases
+
+template<typename T = uint8_t>
+T generateRandomInt(const int maxValue=16) {
+    std::random_device rd;  // Seed
+    std::mt19937 gen(rd()); // Mersenne Twister PRNG
+    std::uniform_int_distribution<T> dist(1, maxValue);
+    return dist(gen);
+}
+
 
 template<typename T = uint8_t, size_t size = 8>
 std::array<T, size> generateRandomData() {
@@ -19,7 +27,7 @@ std::array<T, size> generateRandomData() {
     std::random_device rd;  // Seed
     std::mt19937 gen(rd()); // Mersenne Twister PRNG
     std::uniform_int_distribution<T> dist(
-        std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
+    std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
 
     for (size_t i = 0; i < size; ++i) {
         data[i] = dist(gen);

@@ -1,5 +1,5 @@
-#include "TestChip8.h"
-
+// #include "chip8/TestChip8.h"
+#include <TestChip8.h>
 
 // ====== Testing base class functions ======
 
@@ -87,15 +87,15 @@ TEST_F(TestChip8, CycleFetchExec) {
     ASSERT_EQ(get_soundTimer(), 0) << "Sound timer was unexpectedly modified.\n";
 }
 
-TEST_F(TestChip8, TableCall) {
-    tempFilePath = "./temp_file.ch8";
-    std::array<uint8_t, 2> testData = {0x00, 0x01};
-    writeFile(tempFilePath, testData);    
-    chip8.LoadROM(tempFilePath); 
+// TEST_F(TestChip8, TableCall) {
+//     tempFilePath = "./temp_file.ch8";
+//     std::array<uint8_t, 2> testData = {0x00, 0x01};
+//     writeFile(tempFilePath, testData);    
+//     chip8.LoadROM(tempFilePath); 
 
-    // TODO: check correct function is called through table system 
-    // I think it's broken
-}
+//     // TODO: check correct function is called through table system 
+//     // I think it's broken
+// }
 
 TEST_F(TestChip8, CycleTimers) {
     tempFilePath = "./temp_file.ch8";

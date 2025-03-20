@@ -66,7 +66,7 @@ This emulator is built using C++20 and requires the SDL2 library for rendering a
 #### On Ubuntu
 ```bash
 sudo apt update
-sudo apt install g++ libsdl2-dev make
+sudo apt install g++ libsdl2-dev make cmake
 ```
 
 ### Building the Emulator

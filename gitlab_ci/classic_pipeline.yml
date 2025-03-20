@@ -1,0 +1,75 @@
+stages:
+  - prepare
+  - build
+  - test
+  - deploy
+
+
+install_deps:
+  stage: prepare
+  script:
+    - apt update
+    - apt install -y --no-install-recommends g++ libsdl2-dev make cmake ninja-build
+  cache:
+    key: apt-cache
+    paths:
+      - /var/cache/apt/archives/
+
+
+build_project:
+  stage: build
+  script:
+    - make all
+  artifacts:
+    paths:
+      - build/ 
+    expire_in: 1 day 
+  dependencies:
+    - prepare 
+  rules:
+    - if: $CI_COMMIT_BRANCH  
+
+test_all:
+  stage: test
+  script:
+    - make tests
+  dependencies:
+    - build
+  artifacts:
+    paths:
+      - log/ 
+  allow_failure: false 
+
+
+load_rom:
+  stage: test
+  script:
+    - wget -O test_opcode.ch8 https://raw.githubusercontent.com/corax89/chip8-test-rom/master/test_opcode.ch8
+    - make run test_opcode.ch8
+    - sleep 5
+    - chip8_pid=$(ps aux | awk '/chip8/ {print $2; exit}')
+    - kill $chip8_pid
+  artifacts:
+    paths:
+      - test_opcode.ch8
+    expire_in: 1 day
+  dependencies:
+    - test_all
+  
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying emulator..."
+    - chmod +x build/bin/chip8
+    - mkdir -p ~/chip8/ 
+    - cp build/bin/chip8 ~/chip8/ 
+    - echo "Emulator successfully deployed to ~/chip8/"
+  dependencies:
+    - test
+  artifacts:
+    paths:
+      - ~/chip8_emulator/
+    expire_in: 7 days
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+

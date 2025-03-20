@@ -10,6 +10,7 @@ BUILD_DIR := build
 OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
 BIN_DIR := $(BUILD_DIR)/bin
+LOG_DIR := log
 
 # Source files
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
@@ -20,13 +21,13 @@ TARGET := $(BIN_DIR)/chip8
 TARGET_TESTS := $(BIN_DIR)/chip8_tests
 
 # Reports
-REPORT_PREFIX = log/reports
+REPORT_PREFIX = reports
 EXTENSION = xml #xml or json
 # EXTENSION = $(patsubst .%,%,$(suffix $(REPORT)))
 TIMESTAMP = $(shell date +'%Y%m%d_%H%M%S')  # Current timestamp
 COMMIT_HASH = $(shell git rev-parse --short HEAD)  # Git commit hash
 # REPORT = $(REPORT_PREFIX)_$(COMMIT_HASH)_$(TIMESTAMP).$(EXTENSION)
-REPORT = $(REPORT_PREFIX)_$(strip $(COMMIT_HASH))_$(strip $(TIMESTAMP)).$(EXTENSION)
+REPORT = $(LOG_DIR)/$(REPORT_PREFIX)_$(strip $(COMMIT_HASH))_$(strip $(TIMESTAMP)).$(EXTENSION)
 
 
 .PHONY: all
@@ -52,7 +53,7 @@ build:
 clean:
 	@echo "====== Cleaning up build and report files... ======"
 	@rm -rf $(BUILD_DIR)
-	@rm -rf $(REPORT)
+	@rm -rf $(LOG_DIR)
 	@rm -rf test_detail.xml
 	@rm -rf test_detail.json
 	@echo "====== Clean up complete! ======"
@@ -60,8 +61,8 @@ clean:
 .PHONY: tests
 tests:
 	@echo "====== Running tests... ======"
-	$(TARGET_TESTS) --gtest_output=$(strip $(EXTENSION)):$(REPORT)
-	@echo "Results saved in $(REPORT)"
+	@echo "Log saved in $(REPORT)"
+	@$(TARGET_TESTS) --gtest_output=$(strip $(EXTENSION)):$(REPORT)
 	@echo "====== Tests complete! ======"
 
 # TODO: not finished, need to download rom and load it
@@ -69,4 +70,4 @@ tests:
 run:
 	@echo "====== Launching target with ROM file: $(word 2, $(MAKECMDGOALS)) ======"
 	@${TARGET} $(word 2, $(MAKECMDGOALS))
-	@echo "====== Launch complete! ======"
+	@echo "====== Emulator terminated! ======"

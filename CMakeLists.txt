@@ -86,15 +86,21 @@ endif()
 message(STATUS "====== BUILDING PROJECT ======")
 
 message(STATUS "Checking source files:")
-set(SRC_FILES 
-    src/Chip8.cpp src/Opcodes.cpp src/Platform.cpp)
-foreach(src_file ${SRC_FILES})
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src_file}")
-        message(STATUS "  ${src_file} - Found")
-    else()
-        message(STATUS "  ${src_file} - NOT FOUND")
-    endif()
-endforeach()
+
+file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+
+# set(SRC_FILES 
+#     src/Chip8.cpp src/Opcodes.cpp src/Platform.cpp)
+
+# if a needed folder must be found at all cost 
+# =>
+# foreach(src_file ${SRC_FILES})
+#     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src_file}")
+#         message(STATUS "  ${src_file} - Found")
+#     else()
+#         message(STATUS "  ${src_file} - NOT FOUND")
+#     endif()
+# endforeach()
 
 message(STATUS "Building chip8 library:")
 add_library(chip8_lib
@@ -102,7 +108,6 @@ add_library(chip8_lib
 )
 
 target_include_directories(chip8_lib PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${SDL2_INCLUDE_DIRS}
 )
@@ -129,20 +134,9 @@ target_link_libraries(chip8 PRIVATE chip8_lib)
 
 message(STATUS "====== BUILDING TESTS ======")
 
-# Define your test source files
-set(TEST_FILES 
-    tests/src/TestPlatform.cpp 
-    tests/src/TestOpcodes.cpp 
-    tests/src/TestChip8.cpp
+file(GLOB_RECURSE TEST_FILES 
+    "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
 )
-
-foreach(test_file ${TEST_FILES})
-    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${test_file}")
-        message(STATUS "  ${test_file} - Found")
-    else()
-        message(STATUS "  ${test_file} - NOT FOUND")
-    endif()
-endforeach()
 
 # Testing environment setup (GoogleTest)
 FetchContent_Declare(
@@ -159,9 +153,15 @@ add_executable(chip8_tests
 )
 
 target_include_directories(chip8_tests PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/tests/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/include/
 )
+
+file(GLOB_RECURSE TEST_INCLUDE_DIRS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} tests/include/*)
+
+foreach(dir ${TEST_INCLUDE_DIRS})
+    get_filename_component(parent_dir ${dir} DIRECTORY)
+    target_include_directories(chip8_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/${parent_dir})
+endforeach()
 
 # Link the test library and other dependencies
 target_link_libraries(chip8_tests PRIVATE 

@@ -1,2 +1,23 @@
-% to get the rom to test
-wget https://github.com/corax89/chip8-test-rom/blob/master/test_opcode.ch8
+stages:
+  - prepare
+  - build
+  - test
+  - deploy
+
+generate_includes:
+  stage: prepare
+  script:
+    - sh gitlab_ci/generate_includes.sh generate_includes
+  artifacts:
+    paths:
+      - gitlab_ci/includes.yml
+
+include:
+  - local: 'gitlab_ci/includes.yml'
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"     # Run for main branch
+    - if: $CI_COMMIT_BRANCH == "develop"
+    - if: $CI_COMMIT_BRANCH =~ /feature/  # Run for feature branches
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"  # Run on merge requests
