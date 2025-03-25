@@ -1,19 +1,47 @@
 stages:
-  - prepare
-  - build
-  - test
-  - deploy
+  - setup
+  - triggers
 
 generate_includes:
-  stage: prepare
+  stage: setup
+  # can be used to write config file
   script:
     - sh gitlab_ci/generate_includes.sh generate_includes
   artifacts:
     paths:
       - gitlab_ci/includes.yml
 
-include:
-  - local: 'gitlab_ci/includes.yml'
+all_pipeline:
+  stage: triggers
+  trigger:
+    include :
+      - artifact: gitlab_ci/includes.yml
+      job: generate_includes
+    rules:
+      changes:
+        - .gitlab-ci.yml
+        - gitlab_ci/*
+
+whole_pipeline:
+  stage: triggers
+  trigger:
+    include:
+      - gitlab_ci/classic_pipeline.yml
+  rules:
+    changes:
+      - src/*
+      - tests/*
+
+building_pipeline:
+  stage: triggers
+  trigger:
+    include:
+      - gitlab_ci/build_pipeline.yml
+  rules:
+    changes:
+      - src/*
+      - CMakeLists.txt
+      - Makefile
 
 workflow:
   rules:
