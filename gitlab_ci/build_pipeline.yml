@@ -26,7 +26,7 @@ build_project:
       - build/ 
     expire_in: 1 day 
   dependencies:
-    - prepare 
+    - install_deps 
   rules:
     - if: $CI_COMMIT_BRANCH  
 
@@ -45,5 +45,5 @@ load_rom:
       - test_opcode.ch8
     expire_in: 1 day
   dependencies:
-    - test_all
+    - build_project
 

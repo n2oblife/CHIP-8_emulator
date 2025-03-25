@@ -25,7 +25,7 @@ build_project:
       - build/ 
     expire_in: 1 day 
   dependencies:
-    - prepare 
+    - install_deps 
   rules:
     - if: $CI_COMMIT_BRANCH  
 
@@ -34,7 +34,7 @@ test_all:
   script:
     - make tests
   dependencies:
-    - build
+    - build_project
   artifacts:
     paths:
       - log/ 
@@ -65,7 +65,7 @@ deploy:
     - cp build/bin/chip8 ~/chip8/ 
     - echo "Emulator successfully deployed to ~/chip8/"
   dependencies:
-    - test
+    - load_rom
   artifacts:
     paths:
       - ~/chip8_emulator/

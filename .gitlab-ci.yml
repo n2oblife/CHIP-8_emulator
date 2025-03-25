@@ -2,25 +2,32 @@ stages:
   - setup
   - triggers
 
+
+variables:
+  ALL_PIPELINES: "False"
+
 generate_includes:
   stage: setup
   # can be used to write config file
   script:
+    - chmod -x gitlab_ci/generate_includes.sh
     - sh gitlab_ci/generate_includes.sh generate_includes
   artifacts:
     paths:
       - gitlab_ci/includes.yml
 
-all_pipeline:
+all_pipelines:
   stage: triggers
+  variables:
+    ALL_PIPELINES: "True" 
   trigger:
     include :
       - artifact: gitlab_ci/includes.yml
-      job: generate_includes
-    rules:
-      changes:
-        - .gitlab-ci.yml
-        - gitlab_ci/*
+        job: generate_includes
+  rules:
+    - changes:
+      - .gitlab-ci.yml
+      - gitlab_ci/*
 
 whole_pipeline:
   stage: triggers
@@ -28,7 +35,9 @@ whole_pipeline:
     include:
       - gitlab_ci/classic_pipeline.yml
   rules:
-    changes:
+    - if: $ALL_PIPELINES == "True"
+      when: never
+    - changes:
       - src/*
       - tests/*
 
@@ -38,7 +47,9 @@ building_pipeline:
     include:
       - gitlab_ci/build_pipeline.yml
   rules:
-    changes:
+    - if: $ALL_PIPELINES == "True"
+      when: never
+    - changes:
       - src/*
       - CMakeLists.txt
       - Makefile
