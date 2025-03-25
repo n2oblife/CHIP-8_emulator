@@ -8,7 +8,6 @@ variables:
 
 generate_includes:
   stage: setup
-  # can be used to write config file
   script:
     - chmod -x gitlab_ci/generate_includes.sh
     - sh gitlab_ci/generate_includes.sh generate_includes

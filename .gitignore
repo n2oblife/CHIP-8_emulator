@@ -84,3 +84,6 @@ test_detail.json
 *[rR][eE][pP][oO][rR][tT]*.xml
 *[rR][eE][pP][oO][rR][tT]*.json
 test_opcode.ch8
+
+# gitlab ci
+gitlab_ci/includes.yml
