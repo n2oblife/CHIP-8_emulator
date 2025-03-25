@@ -8,8 +8,8 @@ stages:
 install_deps:
   stage: prepare
   script:
-    - apt update
-    - apt install -y --no-install-recommends g++ libsdl2-dev make cmake ninja-build
+    - apt-get update
+    - apt-get install -y g++ libsdl2-dev make cmake ninja-build
   cache:
     key: apt-cache
     paths:

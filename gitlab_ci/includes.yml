@@ -1,3 +1,0 @@
-include:
-  - local: 'gitlab_ci/build_pipeline.yml'
-  - local: 'gitlab_ci/classic_pipeline.yml'
