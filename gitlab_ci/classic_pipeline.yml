@@ -9,7 +9,7 @@ install_deps:
   stage: prepare
   script:
     - apt-get update
-    - apt-get install -y g++ libsdl2-dev make cmake ninja-build
+    - apt-get install -y g++ make cmake ninja-build libsdl2-dev #gcov and lcov
   cache:
     key: apt-cache
     paths:

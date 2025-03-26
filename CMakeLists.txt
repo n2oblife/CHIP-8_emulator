@@ -1,30 +1,56 @@
 message(STATUS "======= COMPILATION PIPELINE CHECKS ======")
-
 cmake_minimum_required(VERSION 3.14)
-project(chip8)
+
+project(Chip8
+    VERSION 0.3
+    DESCRIPTION "This repository contains a CHIP-8 emulator, which emulates the CHIP-8 virtual machine architecture used in the 1970s and 1980s for programming simple games. The emulator can load and execute CHIP-8 games, offering a window into early low-level programming and emulator development."
+    LANGUAGES CXX
+    HOMEPAGE_URL https://github.com/n2oblife/CHIP-8_emulator
+    )
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
+elseif("${CMAKE_BUILD_TYPE}" STREQUAL "debug")
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+endif()
+if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    option(ENABLE_TESTS "Enable Chip8 Emulator Tests" ON)
+    # Enable warnings for debug
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        add_compile_options(-Wall -Wextra -Wpedantic)
+    elseif (MSVC)
+        add_compile_options(/W4 /WX)
+    endif()
+endif()
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 message(STATUS "======= FETCHING DEPENDENCIES ======")
 
 # Include FetchContent for libraries that need to be fetched
 include(FetchContent)
+include(ExternalProject)
+find_package(Threads REQUIRED)
 
-# Find SDL2 using pkg-config (common on Linux)
-find_package(PkgConfig QUIET)
+find_package(PkgConfig)
 if(PKG_CONFIG_FOUND)
-    pkg_check_modules(SDL2 QUIET sdl2)
+    pkg_check_modules(SDL2 sdl2)
 endif()
-
 # Variable to hold our SDL2 libraries info
 if(SDL2_FOUND)
     message(STATUS "Found SDL2 via pkg-config")
     # No need to set SDL2_TARGET as we'll use variables provided by pkg-config
 else()
-    message(STATUS "System SDL2 not found. Building from source...")
+    message(STATUS "System SDL2 not found. Fetch from source...")
     
-    # If SDL2 is not found, download and build it
+    # If SDL2 is not found, download and fetch it
     FetchContent_Declare(
         SDL2
         GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
@@ -38,138 +64,89 @@ else()
     # Set SDL2 include and lib vars manually
     set(SDL2_INCLUDE_DIRS "${SDL2_SOURCE_DIR}/include" "${SDL2_BINARY_DIR}/include")
     set(SDL2_LIBRARIES SDL2-static)
+    message(STATUS "SDL2 Libraries fetched: ${SDL2_LIBRARIES}")
 endif()
-message(STATUS "SDL2 Libraries: ${SDL2_LIBRARIES}")
 
 # Fetch GLAD
-FetchContent_Declare(
-    glad
-    GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-    GIT_TAG v0.1.36
-)
-FetchContent_MakeAvailable(glad)
+if(PKG_CONFIG_FOUND)
+    pkg_check_modules(GLAD glad)
+endif()
+# Variable to hold our SDL2 libraries info
+if(GLAD_FOUND)
+    message(STATUS "Found GLAD via pkg-config")
+    # No need to set GLAD_TARGET as we'll use variables provided by pkg-config
+else()
+    message(STATUS "System GLAD not found. Fetching from source...")
+    
+    FetchContent_Declare(
+        glad
+        GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+        GIT_TAG v0.1.36
+    )
+    FetchContent_MakeAvailable(glad)
+
+    set(GLAD_INCLUDE_DIRS "${GLAD_SOURCE_DIR}/include" "${GLAD_BINARY_DIR}/include")
+    set(GLAD GLAD-static)
+    message(STATUS "GLAD Libraries fetched: ${GLAD_LIBRARIES}")
+endif()
 
 # Fetch ImGui
-FetchContent_Declare(
-    imgui
-    GIT_REPOSITORY https://github.com/ocornut/imgui.git
-    GIT_TAG v1.88
-)
-FetchContent_GetProperties(imgui)
-if(NOT imgui_POPULATED)
-    FetchContent_Populate(imgui)
-    
-    # ImGui doesn't have a CMakeLists.txt, so we need to create a target for it
-    add_library(imgui STATIC
-        ${imgui_SOURCE_DIR}/imgui.cpp
-        ${imgui_SOURCE_DIR}/imgui_demo.cpp
-        ${imgui_SOURCE_DIR}/imgui_draw.cpp
-        ${imgui_SOURCE_DIR}/imgui_tables.cpp
-        ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-        ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.cpp
-        ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
-    )
-    
-    target_include_directories(imgui PUBLIC 
-        ${imgui_SOURCE_DIR}
-        ${imgui_SOURCE_DIR}/backends
-        ${SDL2_INCLUDE_DIRS}
-    )
-    
-    if(SDL2_FOUND)
-        target_link_libraries(imgui PUBLIC ${SDL2_LIBRARIES})
-    else()
-        target_link_libraries(imgui PUBLIC SDL2-static)
-    endif()
+if(PKG_CONFIG_FOUND)
+    pkg_check_modules(IMGUI imgui)
 endif()
-
-message(STATUS "====== BUILDING PROJECT ======")
-
-message(STATUS "Checking source files:")
-
-file(GLOB_RECURSE SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
-
-# set(SRC_FILES 
-#     src/Chip8.cpp src/Opcodes.cpp src/Platform.cpp)
-
-# if a needed folder must be found at all cost 
-# =>
-# foreach(src_file ${SRC_FILES})
-#     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${src_file}")
-#         message(STATUS "  ${src_file} - Found")
-#     else()
-#         message(STATUS "  ${src_file} - NOT FOUND")
-#     endif()
-# endforeach()
-
-message(STATUS "Building chip8 library:")
-add_library(chip8_lib
-    ${SRC_FILES}
-)
-
-target_include_directories(chip8_lib PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${SDL2_INCLUDE_DIRS}
-)
-
-target_link_libraries(chip8_lib PUBLIC 
-    glad 
-    imgui
-)
-
-if(SDL2_FOUND)
-    target_link_libraries(chip8_lib PUBLIC ${SDL2_LIBRARIES})
+# Variable to hold our SDL2 libraries info
+if(IMGUI_FOUND)
+    message(STATUS "Found IMGUI via pkg-config")
+    # No need to set IMGUI_TARGET as we'll use variables provided by pkg-config
 else()
-    target_link_libraries(chip8_lib PUBLIC SDL2-static)
+    message(STATUS "System IMGUI not found. Fetching from source...")
+    # Fetch ImGui
+    FetchContent_Declare(
+        imgui
+        GIT_REPOSITORY https://github.com/ocornut/imgui.git
+        GIT_TAG v1.88
+    )
+    FetchContent_GetProperties(imgui)
+    if(NOT imgui_POPULATED)
+        FetchContent_Populate(imgui)
+        
+        # ImGui doesn't have a CMakeLists.txt, so we need to create a target for it
+        add_library(imgui STATIC
+            ${imgui_SOURCE_DIR}/imgui.cpp
+            ${imgui_SOURCE_DIR}/imgui_demo.cpp
+            ${imgui_SOURCE_DIR}/imgui_draw.cpp
+            ${imgui_SOURCE_DIR}/imgui_tables.cpp
+            ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+            ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.cpp
+            ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+        )
+        
+        target_include_directories(imgui PUBLIC 
+            ${imgui_SOURCE_DIR}
+            ${imgui_SOURCE_DIR}/backends
+            ${SDL2_INCLUDE_DIRS}
+        )
+        
+        if(SDL2_FOUND)
+            target_link_libraries(imgui PUBLIC ${SDL2_LIBRARIES})
+        else()
+            target_link_libraries(imgui PUBLIC SDL2-static)
+        endif()
+    endif()
+
+    set(IMGUI_INCLUDE_DIRS "${IMGUI_SOURCE_DIR}/include" "${IMGUI_BINARY_DIR}/include")
+    set(IMGUI IMGUI-static)
+    message(STATUS "IMGUI libraries fetched: ${IMGUI_LIBRARIES}")
 endif()
 
-message(STATUS "Build binary")
-add_executable(chip8
-    src/main.cpp
-)
+message(STATUS "====== LINKING PROJECT ======")
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_compile_options(chip8 PRIVATE -Wall)
 
-target_link_libraries(chip8 PRIVATE chip8_lib)
+if(ENABLE_TESTS)
+    message(STATUS "====== LINKING TESTS ======")
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)
+endif()
 
-message(STATUS "====== BUILDING TESTS ======")
-
-file(GLOB_RECURSE TEST_FILES 
-    "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
-)
-
-# Testing environment setup (GoogleTest)
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.11.0  # Use a stable version or any other stable release
-)
-FetchContent_MakeAvailable(googletest)
-
-# Define the test executable
-add_executable(chip8_tests
-    ${TEST_FILES}
-    # tests/test_main.cpp // TODO: consider adding a whole SW test (main)
-)
-
-target_include_directories(chip8_tests PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/tests/include/
-)
-
-file(GLOB_RECURSE TEST_INCLUDE_DIRS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} tests/include/*)
-
-foreach(dir ${TEST_INCLUDE_DIRS})
-    get_filename_component(parent_dir ${dir} DIRECTORY)
-    target_include_directories(chip8_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/${parent_dir})
-endforeach()
-
-# Link the test library and other dependencies
-target_link_libraries(chip8_tests PRIVATE 
-    chip8_lib gtest gtest_main
-)
-
-# Register the tests with CTest
-enable_testing()
-# add_test(NAME Chip8Tests COMMAND chip8_tests)
-add_test(NAME Chip8Tests COMMAND chip8_tests)
-
+# Installation (Optional)
+# install(TARGETS chip8 DESTINATION bin)
