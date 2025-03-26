@@ -1,239 +1,271 @@
-#pragma once
+/**
+ * @file Chip8.h
+ * @brief CHIP-8 Emulator Class
+ *
+ * This file contains the declaration of the Chip8 class, which emulates a CHIP-8 system.
+ * The class provides functionality to load ROMs, execute instructions, and manage memory, registers, and timers.
+ */
 
-#include <cstdint>
-#include <random>
-#include <chrono>
-#include <cstring>
-#include <fstream>
-#include <filesystem>
+ #pragma once
 
-#include "Chip8_common.h"
+ #include <cstdint>
+ #include <random>
+ #include <chrono>
+ #include <cstring>
+ #include <fstream>
+ #include <filesystem>
+ 
+ #include "Chip8_common.h"
+ 
+ /**
+  * @class Chip8
+  * @brief CHIP-8 Emulator
+  *
+  * This class emulates a CHIP-8 CPU, providing methods to load ROMs, execute instructions,
+  * and interact with the display and keypad.
+  */
+ class Chip8
+ {
+ public:
+     /**
+      * @brief Constructor: Initializes the CHIP-8 emulator.
+      */
+     Chip8();
+ 
+     /**
+      * @brief Default destructor.
+      */
+     ~Chip8() = default;
+ 
+     // ====== Getters of the class ======
+ 
+     /**
+      * @brief Get the current state of the keypad.
+      * @return An array representing the keypad state (pressed keys).
+      */
+     inline std::array<uint8_t, NUM_KEYS> get_keypad() const { return this->keypad; }
+ 
+     /**
+      * @brief Get the current state of the video display.
+      * @return An array representing the monochrome 64x32 display.
+      */
+     inline std::array<uint32_t, VIDEO_HEIGHT * VIDEO_WIDTH> get_video() const { return this->video; }
+ 
+     // ====== CPU Functions ======
+ 
+     /**
+      * @brief Loads a ROM file into memory.
+      * @param filename Path to the ROM file.
+      */
+     void LoadROM(const std::string& filename);
+ 
+     /** @brief Clears the display. */
+     void OP_00E0();
+ 
+     /** @brief Returns from a subroutine. */
+     void OP_00EE();
+ 
+     /** @brief Jumps to address NNN. */
+     void OP_1nnn();
+ 
+     /** @brief Calls subroutine at address NNN. */
+     void OP_2nnn();
+ 
+     /** @brief Skips next instruction if Vx == kk. */
+     void OP_3xkk();
+ 
+     /** @brief Skips next instruction if Vx != kk. */
+     void OP_4xkk();
+ 
+     /** @brief Skips next instruction if Vx == Vy. */
+     void OP_5xy0();
+ 
+     /** @brief Sets Vx = kk. */
+     void OP_6xkk();
+ 
+     /** @brief Sets Vx = Vx + kk. */
+     void OP_7xkk();
+ 
+     /** @brief Sets Vx = Vy. */
+     void OP_8xy0();
+ 
+     /** @brief Performs bitwise OR: Vx = Vx | Vy. */
+     void OP_8xy1();
+ 
+     /** @brief Performs bitwise AND: Vx = Vx & Vy. */
+     void OP_8xy2();
+ 
+     /** @brief Performs bitwise XOR: Vx = Vx ^ Vy. */
+     void OP_8xy3();
+ 
+     /** @brief Adds Vx and Vy, storing result in Vx and setting VF if overflow occurs. */
+     void OP_8xy4();
+ 
+     /** @brief Subtracts Vy from Vx, storing result in Vx and setting VF to NOT borrow. */
+     void OP_8xy5();
+ 
+     /** @brief Shifts Vx right by 1, storing the least significant bit in VF. */
+     void OP_8xy6();
+ 
+     /** @brief Sets Vx = Vy - Vx, setting VF to NOT borrow. */
+     void OP_8xy7();
+ 
+     /** @brief Shifts Vx left by 1, storing the most significant bit in VF. */
+     void OP_8xyE();
+ 
+     /** @brief Skips next instruction if Vx != Vy. */
+     void OP_9xy0();
+ 
+     /** @brief Sets I = NNN. */
+     void OP_Annn();
+ 
+     /** @brief Jumps to location NNN + V0. */
+     void OP_Bnnn();
+ 
+     /** @brief Sets Vx = random byte & kk. */
+     void OP_Cxkk();
+ 
+     /**
+      * @brief Draws a sprite at coordinate (Vx, Vy).
+      * @details The sprite is `n` bytes in height and starts at memory location I.
+      * VF is set to 1 if any pixels are erased due to collision.
+      */
+     void OP_Dxyn();
+ 
+     /** @brief Skips next instruction if key Vx is pressed. */
+     void OP_Ex9E();
+ 
+     /** @brief Skips next instruction if key Vx is not pressed. */
+     void OP_ExA1();
+ 
+     /** @brief Sets Vx to the value of the delay timer. */
+     void OP_Fx07();
+ 
+     /**
+      * @brief Waits for a key press and stores the value in Vx.
+      * @details Execution pauses until a key is pressed.
+      */
+     void OP_Fx0A();
+ 
+     /**
+      * @brief Optimized version of OP_Fx0A.
+      */
+     void OP_Fx0A_optimized();
+ 
+     /** @brief Sets the delay timer to Vx. */
+     void OP_Fx15();
+ 
+     /** @brief Sets the sound timer to Vx. */
+     void OP_Fx18();
+ 
+     /** @brief Sets I = I + Vx. */
+     void OP_Fx1E();
+ 
+     /** @brief Sets I to the location of the sprite for digit Vx. */
+     void OP_Fx29();
+ 
+     /**
+      * @brief Stores the BCD representation of Vx at memory locations I, I+1, and I+2.
+      */
+     void OP_Fx33();
+ 
+     /** @brief Stores registers V0 through Vx in memory starting at I. */
+     void OP_Fx55();
+ 
+     /** @brief Reads registers V0 through Vx from memory starting at I. */
+     void OP_Fx65();
+ 
+     /** @brief Handles OP_00E* opcode. */
+     void Table0();
+ 
+     /** @brief Handles OP_8xy* opcode. */
+     void Table8();
+ 
+     /** @brief Handles OP_Ex** opcode. */
+     void TableE();
+ 
+     /** @brief Handles OP_Fx** opcode. */
+     void TableF();
+ 
+     /** @brief Handles unimplemented opcodes (NOP). */
+     void OP_NULL(){};
+ 
+     /** @brief Executes one cycle of the CHIP-8 CPU. */
+     void Cycle();
+ 
+ private:
+     // CHIP-8 CPU registers, memory, and peripherals
+     std::array<uint8_t, NUM_REGISTERS> registers; /**< General-purpose registers (V0-VF). */
+     std::array<uint8_t, MEMORY_SIZE> memory; /**< Memory (4KB). */
+     uint16_t index; /**< Index register (I). */
+     uint16_t pc; /**< Program counter (PC). */
+     std::array<uint16_t, STACK_SIZE> stack; /**< Stack for subroutine calls. */
+     uint8_t sp; /**< Stack pointer. */
+     uint8_t delayTimer; /**< Delay timer. */
+     uint8_t soundTimer; /**< Sound timer. */
+     std::array<uint8_t, NUM_KEYS> keypad; /**< Keypad state (16 keys). */
+     std::array<uint32_t, VIDEO_HEIGHT * VIDEO_WIDTH> video; /**< 64x32 monochrome display. */
+     uint16_t opcode; /**< Current opcode being executed. */
+     
+     bool draw_flag; /**< Flag indicating if the display needs updating. */
+ 
+     /** @brief Random number generator engine. */
+     std::default_random_engine randGen;
 
-class Chip8
-{
-public:
-    Chip8();
-    ~Chip8() = default;
+     /** 
+      * @brief Uniform distribution for random number generation.
+      * @details Used for generating random bytes, typically in the OP_Cxkk instruction.
+      */
+     std::uniform_int_distribution<unsigned int> randByte;
 
-    // ====== Getters of the class ======
-    
-    inline std::array<uint8_t, NUM_KEYS> get_keypad() const { 
-        return this->keypad;
-    }
+     /** @brief Typedef for CHIP-8 opcode function pointers. */
+     using Chip8Func = void (Chip8::*)();
 
-    inline std::array<uint32_t, VIDEO_HEIGHT*VIDEO_WIDTH> get_video() const { 
-        return this->video;
-    }
+     /** 
+      * @brief Main opcode function table (0x0 - 0xF).
+      * @details Maps opcode prefixes to their corresponding handler functions.
+      */
+     std::array<Chip8Func, 0x10> table{};
 
-    // ====== Actual CPU functions ======
+     /** 
+      * @brief Opcode table for 0x0 series instructions.
+      * @details Handles opcodes OP_00E0 and OP_00EE.
+      */
+     std::array<Chip8Func, 0xF + 1> table0{};
 
-    // Load a ROM file into memory
-    void LoadROM(const std::string&  filename);
+     /** 
+      * @brief Opcode table for 0x8 series instructions.
+      * @details Handles arithmetic and logic operations involving Vx and Vy.
+      */
+     std::array<Chip8Func, 0xF + 1> table8{};
 
-    // Clear display
-    void OP_00E0();
+     /** 
+      * @brief Opcode table for 0xE series instructions.
+      * @details Handles keypress-related operations.
+      */
+     std::array<Chip8Func, 0xF + 1> tableE{};
 
-    // Return from a subroutine
-    void OP_00EE();
+     /** 
+      * @brief Opcode table for 0xF series instructions.
+      * @details Handles timer operations, memory management, and input handling.
+      */
+     std::array<Chip8Func, 0x66> tableF{};
 
-    // Jump to address NNN
-    void OP_1nnn();
+     /** 
+      * @brief Checks and processes the ROM file before loading it.
+      * @param filename Path to the ROM file.
+      * @return A vector containing the ROM's binary data.
+      */
+     std::vector<uint8_t> filenameHandling(const std::string& filename);
 
-    // Call subroutine at NNN
-    void OP_2nnn();
+     /** @brief Initializes CHIP-8 system components (memory, registers, etc.). */
+     void InitChip8();
 
-    // Skip next instruction if Vx == kk
-    void OP_3xkk();
+     /** @brief Initializes opcode function tables. */
+     void InitializeTables();
 
-    // Skip next instruction if Vx != kk
-    void OP_4xkk();
+     /** @brief Allows TestChip8 to access private members for unit testing. */
+     friend class TestChip8;
 
-    // Skip next instruction if Vx == Vy
-    void OP_5xy0();
-
-    // Set Vx = kk
-    void OP_6xkk();
-
-    // Set Vx = Vx + kk
-    void OP_7xkk();
-
-    // Set Vx = Vy
-    void OP_8xy0();
-
-    // Set Vx = Vx | Vy
-    void OP_8xy1();
-
-    // Set Vx = Vx & Vy
-    void OP_8xy2();
-
-    // Set Vx = Vx ^ Vy (XOR)
-    void OP_8xy3();
-
-    // Set Vx = Vx + Vy, set VF = carry (sum which handles overflow)
-    void OP_8xy4();
-
-    /*
-    Set Vx = Vx - Vy, set VF = NOT borrow (Vx > Vy), 
-    (underflow is just flagged)
-    */ 
-    void OP_8xy5();
-
-    /* 
-    Set Vx = Vx >> 1, set VF = carry (LSB before shift), 
-    tells if Vx is divisible by 2
-    */ 
-    void OP_8xy6();
-
-    /*
-    Set Vx = Vy - Vx, set VF = NOT borrow (Vy > Vx), 
-    (underflow is just flagged)
-    */ 
-    void OP_8xy7();
-
-    /*
-    Set Vx = Vx << 1 = 2*Vx, set VF = carry (MSB before shift), 
-    Vf tells if there was overflow
-    */ 
-    void OP_8xyE();
-
-    // Skip next instruction if Vx != Vy
-    void OP_9xy0();
-
-    // Set I = nnn (address)
-    void OP_Annn();
-
-    // Jump to location nnn + V0
-    void OP_Bnnn();
-
-    // Set Vx = random byte & kk
-    void OP_Cxkk();
-
-    /*
-    Display n-byte sprite starting at memory location I at (Vx, Vy), set VF = collision.
-    The interpreter reads n bytes from memory, starting at the address stored in I.
-    These bytes are then displayed as sprites on screen at coordinates (Vx, Vy).
-    Sprites are XORed onto the existing screen. If this causes any pixels to be erased,
-    VF is set to 1, otherwise it is set to 0. If the sprite is positioned so part of it is
-    outside the coordinates of the display, it wraps around to the opposite side of the screen.
-    index of the sprite is stored in I and already set by the caller
-    */
-    void OP_Dxyn();
-
-    // Skip next instruction if key with the value of Vx is pressed
-    void OP_Ex9E();
-
-    // Skip next instruction if key with the value of Vx is not pressed
-    void OP_ExA1();
-
-    // Set Vx = delay timer value
-    void OP_Fx07();
-
-    /**
-    Wait for a key press, store the value of the key in Vx
-    The easiest way to “wait” is to decrement the PC by 2 whenever a keypad value is not detected. 
-    This has the effect of running the same instruction repeatedly.
-     */
-    void OP_Fx0A();
-
-    /*
-    Wait for a key press, store the value of the key in Vx (optimized)
-    The easiest way to “wait” is to decrement the PC by 2 whenever a keypad value is not detected. 
-    This has the effect of running the same instruction repeatedly.
-    */
-    void OP_Fx0A_optimized();
-
-    // Set delay timer = Vx
-    void OP_Fx15();
-
-    // Set sound timer = Vx
-    void OP_Fx18();
-
-    // Set I = I + Vx
-    void OP_Fx1E();
-
-    // Set I = location of font sprite for digit Vx
-    void OP_Fx29();
-
-    /*
-    Store Binary-Coded Decimal (BCD = decimal representation with each element stored in a different memory) 
-    representation of Vx in memory locations I, I+1, and I+2.
-    The interpreter takes the decimal value of Vx, 
-    and places the hundreds digit in memory at location in I, 
-    the tens digit at location I+1, 
-    and the ones digit at location I+2.
-    */
-    void OP_Fx33();
-
-    // Store registers V0 through Vx in memory starting at location I (previously set by the caller)
-    void OP_Fx55();
-
-    // Read registers V0 through Vx from memory starting at location I (previously set by the caller)
-    void OP_Fx65();
-
-    //Opcode table functions for opcode OP_00E-
-    void Table0();
-
-    //Opcode table functions for opcode OP_8xy-
-    void Table8();
-
-    /*
-    Opcode table functions for opcode OP_Ex--
-    The only difference between the two functions is the last hex digit
-    */
-    void TableE();
-
-    /*
-    Opcode table functions for opcode OP_Fx--
-    The only difference between the two functions is the last hex digit
-    */
-    void TableF();
-
-    // Opcode functions NULL implementation for when an opcode is not implemented
-    void OP_NULL(){};
-
-    // Emulate one cycle of the CHIP-8 CPU (fetch, decode, execute)
-    void Cycle();
-
-
-private:
-    
-    // CHIP-8 registers, memory, and other components
-    std::array<uint8_t, NUM_REGISTERS> registers;           // General-purpose registers (V0-VF)
-    std::array<uint8_t, MEMORY_SIZE> memory;                // 4KB memory (0x100-0xFFF for programs)
-    uint16_t    index;                                      // Index register (I)
-    uint16_t    pc;                                         // Program counter (PC)
-    std::array<uint16_t, STACK_SIZE> stack;                 // Stack for subroutine calls
-    uint8_t     sp;                                         // Stack pointer
-    uint8_t     delayTimer;                                 // Delay timer
-    uint8_t     soundTimer;                                 // Sound timer
-    std::array<uint8_t, NUM_KEYS> keypad;                   // Input keypad state (16 keys, 0-F)
-    std::array<uint32_t, VIDEO_HEIGHT*VIDEO_WIDTH> video;   // 64x32 pixel monochrome display
-    uint16_t    opcode;                                     // Current opcode
-
-    // Internal flag to track when the screen needs to be updated
-    bool        draw_flag;
-
-    // Random number generation
-    std::default_random_engine randGen;
-    std::uniform_int_distribution<unsigned int> randByte; // must be cawsted to uint8_t
-
-    // Opcode table functions definitions with overhead because many unused memory
-    using Chip8Func = void (Chip8::*)();
-
-    std::array<Chip8Func, 0x10> table{};   // 0x0 - 0xF
-    std::array<Chip8Func, 0xF + 1> table0{};
-    std::array<Chip8Func, 0xF + 1> table8{};
-    std::array<Chip8Func, 0xF + 1> tableE{};
-    std::array<Chip8Func, 0x66> tableF{};  // 0x0 - 0x65
-
-
-    // Check viability of ROM before loading it
-    std::vector<uint8_t> filenameHandling(const std::string& filename);
-    void InitChip8();
-    void InitializeTables();
-
-    // ====== Friends to the tests ======
-
-    friend class TestChip8;
-
-};
+ };
+ 

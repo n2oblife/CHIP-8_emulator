@@ -92,6 +92,13 @@ run:
 %:
 	@:
 
+.PHONY: doc
+doc:
+	@echo "====== Generating Documentation... ======"
+	@cmake --build build --target doc
+	@echo "====== Documentation Generated in build/docs ======"
+
+
 .PHONY: graph
 graph:
 	@if [ ! -f "${TARGET}" ]; then \
@@ -117,6 +124,7 @@ help:
 	@echo "  clean                            - Remove build files, logs, and test reports."
 	@echo "  tests                            - Run unit tests using GoogleTest and save logs."
 	@echo "  run <ROM>                        - Launch the emulator with a specified ROM file or its URL."
+	@echo "  doc                        - Launch the emulator with a specified ROM file or its URL."
 	@echo "  graph                            - Generate a CMake dependency graph for visualization."
 	@echo "  help                             - Display this help message."
 	@echo ""

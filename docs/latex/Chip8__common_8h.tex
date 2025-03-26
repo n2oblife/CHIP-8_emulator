@@ -1,0 +1,108 @@
+\hypertarget{Chip8__common_8h}{}\doxysection{include/\+Chip8\+\_\+common.h File Reference}
+\label{Chip8__common_8h}\index{include/Chip8\_common.h@{include/Chip8\_common.h}}
+
+
+Constant values, useful for building the emulator.  
+
+
+{\ttfamily \#include $<$cstdint$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$array$>$}\newline
+Include dependency graph for Chip8\+\_\+common.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=252pt]{Chip8__common_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=296pt]{Chip8__common_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{Chip8__common_8h_a1e4d190972aead9a740ecc82850aec4a}\label{Chip8__common_8h_a1e4d190972aead9a740ecc82850aec4a}} 
+const int \mbox{\hyperlink{Chip8__common_8h_a1e4d190972aead9a740ecc82850aec4a}{D\+E\+F\+A\+U\+L\+T\+\_\+\+V\+I\+D\+E\+O\+\_\+\+S\+C\+A\+LE}} = 10
+\begin{DoxyCompactList}\small\item\em Default video scaling factor for rendering. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_a88405c7c994bd7fd67174d4c1114c649}\label{Chip8__common_8h_a88405c7c994bd7fd67174d4c1114c649}} 
+const int \mbox{\hyperlink{Chip8__common_8h_a88405c7c994bd7fd67174d4c1114c649}{D\+E\+F\+A\+U\+L\+T\+\_\+\+C\+Y\+C\+L\+E\+\_\+\+D\+E\+L\+AY}} = 1
+\begin{DoxyCompactList}\small\item\em Default cycle delay for the emulator (in milliseconds). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_ad9ccf34725559026ea44950aa3b76a7a}\label{Chip8__common_8h_ad9ccf34725559026ea44950aa3b76a7a}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_ad9ccf34725559026ea44950aa3b76a7a}{S\+T\+A\+R\+T\+\_\+\+A\+D\+D\+R\+E\+SS}} = 0x200
+\begin{DoxyCompactList}\small\item\em Start address in memory where C\+H\+I\+P-\/8 programs are loaded. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_aba0a7d70c0238e8d7da879b4fa81eb4f}\label{Chip8__common_8h_aba0a7d70c0238e8d7da879b4fa81eb4f}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_aba0a7d70c0238e8d7da879b4fa81eb4f}{F\+O\+N\+T\+S\+E\+T\+\_\+\+S\+T\+A\+R\+T\+\_\+\+A\+D\+D\+R\+E\+SS}} = 0x50
+\begin{DoxyCompactList}\small\item\em Memory address where the C\+H\+I\+P-\/8 fontset starts. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_abee21fac9ef087a6928ff69fcebdcc0a}\label{Chip8__common_8h_abee21fac9ef087a6928ff69fcebdcc0a}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_abee21fac9ef087a6928ff69fcebdcc0a}{F\+O\+N\+T\+\_\+\+S\+I\+ZE}} = 5
+\begin{DoxyCompactList}\small\item\em Size (in bytes) of each character in the fontset. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_a74c382836b3154349485b726985abcef}\label{Chip8__common_8h_a74c382836b3154349485b726985abcef}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_a74c382836b3154349485b726985abcef}{M\+E\+M\+O\+R\+Y\+\_\+\+S\+I\+ZE}} = 4096
+\begin{DoxyCompactList}\small\item\em Total size of C\+H\+I\+P-\/8 memory (4KB). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_af606dd29a060e0be4db1ef26d6c8b6c2}\label{Chip8__common_8h_af606dd29a060e0be4db1ef26d6c8b6c2}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_af606dd29a060e0be4db1ef26d6c8b6c2}{V\+I\+D\+E\+O\+\_\+\+W\+I\+D\+TH}} = 64
+\begin{DoxyCompactList}\small\item\em Width of the C\+H\+I\+P-\/8 display (in pixels). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_afa371e06a264d544473951fc2c846830}\label{Chip8__common_8h_afa371e06a264d544473951fc2c846830}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_afa371e06a264d544473951fc2c846830}{V\+I\+D\+E\+O\+\_\+\+H\+E\+I\+G\+HT}} = 32
+\begin{DoxyCompactList}\small\item\em Height of the C\+H\+I\+P-\/8 display (in pixels). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_a2a8bbb4edc9c75dc36d9579b8b69909e}\label{Chip8__common_8h_a2a8bbb4edc9c75dc36d9579b8b69909e}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_a2a8bbb4edc9c75dc36d9579b8b69909e}{F\+O\+N\+T\+S\+E\+T\+\_\+\+S\+I\+ZE}} = 80
+\begin{DoxyCompactList}\small\item\em Total size of the C\+H\+I\+P-\/8 fontset (in bytes). \end{DoxyCompactList}\item 
+constexpr std\+::array$<$ uint8\+\_\+t, \mbox{\hyperlink{Chip8__common_8h_a2a8bbb4edc9c75dc36d9579b8b69909e}{F\+O\+N\+T\+S\+E\+T\+\_\+\+S\+I\+ZE}} $>$ \mbox{\hyperlink{Chip8__common_8h_a9f3dd0d1a2b0d5d9f785cc1437fed525}{fontset}}
+\begin{DoxyCompactList}\small\item\em C\+H\+I\+P-\/8 built-\/in fontset. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_ab17ec02f1b62065b7d82bb1939df8419}\label{Chip8__common_8h_ab17ec02f1b62065b7d82bb1939df8419}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_ab17ec02f1b62065b7d82bb1939df8419}{N\+U\+M\+\_\+\+R\+E\+G\+I\+S\+T\+E\+RS}} = 16
+\begin{DoxyCompactList}\small\item\em Number of general-\/purpose registers (V0-\/\+VF). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_a56d0e53fb55fc4510a12e2a5d17efbb6}\label{Chip8__common_8h_a56d0e53fb55fc4510a12e2a5d17efbb6}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_a56d0e53fb55fc4510a12e2a5d17efbb6}{S\+T\+A\+C\+K\+\_\+\+S\+I\+ZE}} = 16
+\begin{DoxyCompactList}\small\item\em Stack size for subroutine calls (16 levels). \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{Chip8__common_8h_a12d17f49f5c98eaa66dbbf5419fa3059}\label{Chip8__common_8h_a12d17f49f5c98eaa66dbbf5419fa3059}} 
+const unsigned int \mbox{\hyperlink{Chip8__common_8h_a12d17f49f5c98eaa66dbbf5419fa3059}{N\+U\+M\+\_\+\+K\+E\+YS}} = 16
+\begin{DoxyCompactList}\small\item\em Number of keys in the C\+H\+I\+P-\/8 hexadecimal keypad (0-\/F). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Constant values, useful for building the emulator. 
+
+This file contains the declaration of the \mbox{\hyperlink{classChip8}{Chip8}} global values, to build the C\+H\+I\+P-\/8 system. 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{Chip8__common_8h_a9f3dd0d1a2b0d5d9f785cc1437fed525}\label{Chip8__common_8h_a9f3dd0d1a2b0d5d9f785cc1437fed525}} 
+\index{Chip8\_common.h@{Chip8\_common.h}!fontset@{fontset}}
+\index{fontset@{fontset}!Chip8\_common.h@{Chip8\_common.h}}
+\doxysubsubsection{\texorpdfstring{fontset}{fontset}}
+{\footnotesize\ttfamily constexpr std\+::array$<$uint8\+\_\+t, \mbox{\hyperlink{Chip8__common_8h_a2a8bbb4edc9c75dc36d9579b8b69909e}{F\+O\+N\+T\+S\+E\+T\+\_\+\+S\+I\+ZE}}$>$ fontset\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    0xF0, 0x90, 0x90, 0x90, 0xF0,  }
+\DoxyCodeLine{    0x20, 0x60, 0x20, 0x20, 0x70,  }
+\DoxyCodeLine{    0xF0, 0x10, 0xF0, 0x80, 0xF0,  }
+\DoxyCodeLine{    0xF0, 0x10, 0xF0, 0x10, 0xF0,  }
+\DoxyCodeLine{    0x90, 0x90, 0xF0, 0x10, 0x10,  }
+\DoxyCodeLine{    0xF0, 0x80, 0xF0, 0x10, 0xF0,  }
+\DoxyCodeLine{    0xF0, 0x80, 0xF0, 0x90, 0xF0,  }
+\DoxyCodeLine{    0xF0, 0x10, 0x20, 0x40, 0x40,  }
+\DoxyCodeLine{    0xF0, 0x90, 0xF0, 0x90, 0xF0,  }
+\DoxyCodeLine{    0xF0, 0x90, 0xF0, 0x10, 0xF0,  }
+\DoxyCodeLine{    0xF0, 0x90, 0xF0, 0x90, 0x90,  }
+\DoxyCodeLine{    0xE0, 0x90, 0xE0, 0x90, 0xE0,  }
+\DoxyCodeLine{    0xF0, 0x80, 0x80, 0x80, 0xF0,  }
+\DoxyCodeLine{    0xE0, 0x90, 0x90, 0x90, 0xE0,  }
+\DoxyCodeLine{    0xF0, 0x80, 0xF0, 0x80, 0xF0,  }
+\DoxyCodeLine{    0xF0, 0x80, 0xF0, 0x80, 0x80   }
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+C\+H\+I\+P-\/8 built-\/in fontset. 
+
+This array stores the 16 hexadecimal characters (0-\/F) used for rendering. 

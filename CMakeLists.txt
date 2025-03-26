@@ -18,7 +18,7 @@ elseif("${CMAKE_BUILD_TYPE}" STREQUAL "debug")
 endif()
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
     option(ENABLE_TESTS "Enable Chip8 Emulator Tests" ON)
-    # Enable warnings for debug
+    # Enable STATUSs for debug
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
         add_compile_options(-Wall -Wextra -Wpedantic)
     elseif (MSVC)
@@ -100,6 +100,7 @@ if(IMGUI_FOUND)
     # No need to set IMGUI_TARGET as we'll use variables provided by pkg-config
 else()
     message(STATUS "System IMGUI not found. Fetching from source...")
+
     # Fetch ImGui
     FetchContent_Declare(
         imgui
@@ -138,6 +139,49 @@ else()
     set(IMGUI IMGUI-static)
     message(STATUS "IMGUI libraries fetched: ${IMGUI_LIBRARIES}")
 endif()
+
+
+find_package(Doxygen QUIET)
+if(NOT DOXYGEN_FOUND)
+    message(STATUS "Doxygen not found. Fetching from source...")
+    
+    FetchContent_Declare(
+        doxygen
+        GIT_REPOSITORY https://github.com/doxygen/doxygen.git
+        GIT_TAG Release_1_10_0 # Use the latest stable release tag
+    )
+    
+    FetchContent_MakeAvailable(doxygen)
+    
+    # Set the newly built Doxygen as the executable
+    set(DOXYGEN_EXECUTABLE ${CMAKE_BINARY_DIR}/_deps/doxygen-build/bin/doxygen)
+    
+    if(EXISTS ${DOXYGEN_EXECUTABLE})
+        message(STATUS "Doxygen successfully built: ${DOXYGEN_EXECUTABLE}")
+    else()
+        message(FATAL_ERROR "Failed to build Doxygen. Documentation won't be generated.")
+    endif()
+endif()
+
+if(DOXYGEN_EXECUTABLE)
+    message(STATUS "Doxygen executable: ${DOXYGEN_EXECUTABLE}")
+
+    set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/docs)
+    set(DOXYGEN_CONFIG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
+    
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in ${DOXYGEN_CONFIG_FILE} @ONLY)
+
+    add_custom_target(doc
+        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIG_FILE}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Generating API documentation with Doxygen"
+        VERBATIM
+    )
+
+endif()
+
+
+
 
 message(STATUS "====== LINKING PROJECT ======")
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)

@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="Chip8_8h" kind="file" language="C++">
+    <compoundname>Chip8.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">random</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">filesystem</includes>
+    <includes refid="Chip8__common_8h" local="yes">Chip8_common.h</includes>
+    <includedby refid="Chip8_8cpp" local="yes">src/chip8/Chip8.cpp</includedby>
+    <includedby refid="Opcodes_8cpp" local="yes">src/chip8/Opcodes.cpp</includedby>
+    <includedby refid="main_8cpp" local="yes">src/main.cpp</includedby>
+    <incdepgraph>
+      <node id="7">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="1">
+        <label>include/Chip8.h</label>
+        <link refid="Chip8_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>fstream</label>
+      </node>
+      <node id="3">
+        <label>random</label>
+      </node>
+      <node id="8">
+        <label>Chip8_common.h</label>
+        <link refid="Chip8__common_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>array</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstring</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classChip8" prot="public">Chip8</innerclass>
+    <briefdescription>
+<para>CHIP-8 Emulator Class. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This file contains the declaration of the <ref refid="classChip8" kindref="compound">Chip8</ref> class, which emulates a CHIP-8 system. The class provides functionality to load ROMs, execute instructions, and manage memory, registers, and timers. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"></codeline>
+<codeline lineno="9"><highlight class="preprocessor"><sp/>#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/>#include<sp/>&quot;<ref refid="Chip8__common_8h" kindref="compound">Chip8_common.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="27" refid="classChip8" refkind="compound"><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classChip8" kindref="compound">Chip8</ref></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="classChip8_1a6d72f2cd7b791e0da2b66e3f9dc2b751" kindref="member">Chip8</ref>();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="classChip8_1a311c9b84aded9f0c32a0c8d8b168aab0" kindref="member">~Chip8</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>======<sp/>Getters<sp/>of<sp/>the<sp/>class<sp/>======</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="46" refid="classChip8_1a749133d07698b60f01c3a09d9da68ecf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::array&lt;uint8_t,<sp/>NUM_KEYS&gt;<sp/><ref refid="classChip8_1a749133d07698b60f01c3a09d9da68ecf" kindref="member">get_keypad</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;keypad;<sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="52" refid="classChip8_1a023eaff9475804dc30b172a8fbeb567e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::array&lt;uint32_t,<sp/>VIDEO_HEIGHT<sp/>*<sp/>VIDEO_WIDTH&gt;<sp/><ref refid="classChip8_1a023eaff9475804dc30b172a8fbeb567e" kindref="member">get_video</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>this-&gt;video;<sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>======<sp/>CPU<sp/>Functions<sp/>======</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a56d6e56ac1c44143b1ae398a12527ef5" kindref="member">LoadROM</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a42a0b4adc145f56db8c78e91fb3c27d8" kindref="member">OP_00E0</ref>();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1ab378b35c24a9ca0c8efc8ed8175732c2" kindref="member">OP_00EE</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a84b8dbc6bd136e941dd792bdcdacb635" kindref="member">OP_1nnn</ref>();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a31d5ae177a988ac656c15e6f58b2d831" kindref="member">OP_2nnn</ref>();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1af8bd77b5ae887922b1a439c49a023003" kindref="member">OP_3xkk</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a1c9269e6d1c14a3fdbacd4b14b5af1cd" kindref="member">OP_4xkk</ref>();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a028b595e4b00f9328427a5b1b42ecda9" kindref="member">OP_5xy0</ref>();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a88a38e73009a2f3c36a6cfc73b1caf27" kindref="member">OP_6xkk</ref>();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a79874e5f77b4d3d6abf2d6ff58aee278" kindref="member">OP_7xkk</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a0d72e54af39b07861db8f146d6e08e3b" kindref="member">OP_8xy0</ref>();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1acf3c5caff502b3e37ac331e4f9616e30" kindref="member">OP_8xy1</ref>();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a6165dfc32aee86bdcea06e2c6db2bc19" kindref="member">OP_8xy2</ref>();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a707447f4dbcd2c7893c7fe0eb7b4974f" kindref="member">OP_8xy3</ref>();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a6d04cc7e4350b10d4c54af7b5e222c2c" kindref="member">OP_8xy4</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a39b6095f460e927986c5fee7759fddda" kindref="member">OP_8xy5</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a957e2b2bd4ba68ab15b69a02f8612844" kindref="member">OP_8xy6</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1abd2e774be09db233592a0e5da092fae6" kindref="member">OP_8xy7</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a44df0fa024f9c2cb4e02d58a37c863f9" kindref="member">OP_8xyE</ref>();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a01d5f9d78111161c8490a7bc72494a64" kindref="member">OP_9xy0</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1aeffd2a3c7e4492433113f2db92ee4c10" kindref="member">OP_Annn</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a7ae912cf91e7c034ecbff793f2e14fb6" kindref="member">OP_Bnnn</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a39864a92adc7963c323fd2103a1ed80d" kindref="member">OP_Cxkk</ref>();</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1ae9579c58b211535fc15628266a5abae9" kindref="member">OP_Dxyn</ref>();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a8e4f8dd2f117d454d5b60e5514aa57dd" kindref="member">OP_Ex9E</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a0537b2069b609522c9bbba0184db2725" kindref="member">OP_ExA1</ref>();</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a83698f3b7ef770b02e09d44c3daace06" kindref="member">OP_Fx07</ref>();</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a39c1ec65d33cd718509edaaa69e2bc28" kindref="member">OP_Fx0A</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a7247805f474b0d904aec2db80f4d8922" kindref="member">OP_Fx0A_optimized</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a9f3b25aa9a4a63072eb570fdae10f0a5" kindref="member">OP_Fx15</ref>();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a7659917688df1a2cc14747b083f06087" kindref="member">OP_Fx18</ref>();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a1ba6c43bbae06d99dd0266412167daf2" kindref="member">OP_Fx1E</ref>();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1ace4a58f583f3c971b1dc5ae96b7e855a" kindref="member">OP_Fx29</ref>();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1aabcbaa3bf8bba432c06129e92c7a818f" kindref="member">OP_Fx33</ref>();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a8fdbd98f87ae424cd7c3ceee230b68c9" kindref="member">OP_Fx55</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a18d0410d24b6cdc71c12b39c60f49f0f" kindref="member">OP_Fx65</ref>();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a106d1884815a7a5cf805f5b8d666badc" kindref="member">Table0</ref>();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a3036b62ee61c7ff4a70e86cffbeaa1f8" kindref="member">Table8</ref>();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a2932eef63db5c88bf76ffe8f898e11f9" kindref="member">TableE</ref>();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1afa8312496632b4ae9fc9692dd05b2e6b" kindref="member">TableF</ref>();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="191" refid="classChip8_1ad8e7ec07e93adc8cefcd4fcda82abe8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1ad8e7ec07e93adc8cefcd4fcda82abe8b" kindref="member">OP_NULL</ref>(){};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classChip8_1a1ca55fd6f6711204240c85f9cd697956" kindref="member">Cycle</ref>();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CHIP-8<sp/>CPU<sp/>registers,<sp/>memory,<sp/>and<sp/>peripherals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;uint8_t,<sp/>NUM_REGISTERS&gt;<sp/>registers;<sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;uint8_t,<sp/>MEMORY_SIZE&gt;<sp/>memory;<sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/>index;<sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/>pc;<sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;uint16_t,<sp/>STACK_SIZE&gt;<sp/>stack;<sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>sp;<sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>delayTimer;<sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/>soundTimer;<sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;uint8_t,<sp/>NUM_KEYS&gt;<sp/>keypad;<sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;uint32_t,<sp/>VIDEO_HEIGHT<sp/>*<sp/>VIDEO_WIDTH&gt;<sp/>video;<sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/>opcode;<sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>draw_flag;<sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::default_random_engine<sp/>randGen;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;unsigned<sp/>int&gt;<sp/>randByte;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>Chip8Func<sp/>=<sp/>void<sp/>(<ref refid="classChip8" kindref="compound">Chip8</ref>::*)();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;Chip8Func,<sp/>0x10&gt;<sp/>table{};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;Chip8Func,<sp/>0xF<sp/>+<sp/>1&gt;<sp/>table0{};</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;Chip8Func,<sp/>0xF<sp/>+<sp/>1&gt;<sp/>table8{};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;Chip8Func,<sp/>0xF<sp/>+<sp/>1&gt;<sp/>tableE{};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::array&lt;Chip8Func,<sp/>0x66&gt;<sp/>tableF{};</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>filenameHandling(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>InitChip8();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>InitializeTables();</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="classChip8_1afcb2f9f3c0bc48762b32b4f300bd0e5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classChip8_1afcb2f9f3c0bc48762b32b4f300bd0e5d" kindref="member">TestChip8</ref>;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/>};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/></highlight></codeline>
+    </programlisting>
+    <location file="include/Chip8.h"/>
+  </compounddef>
+</doxygen>

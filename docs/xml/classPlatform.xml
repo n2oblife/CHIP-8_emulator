@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classPlatform" kind="class" language="C++" prot="public">
+    <compoundname>Platform</compoundname>
+    <includes refid="Platform_8h" local="no">Platform.h</includes>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classPlatform_1a435f26b46034d12585d42f611d92327e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class TestPlatform</definition>
+        <argsstring></argsstring>
+        <name>TestPlatform</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Allows unit tests to access private members. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Platform.h" line="55" column="5" bodyfile="include/Platform.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classPlatform_1a9d05b1e6b667c8a65d61f5e600191329" prot="private" static="no" mutable="no">
+        <type>SDL_Window *</type>
+        <definition>SDL_Window* Platform::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the SDL window. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Platform.h" line="57" column="16" bodyfile="include/Platform.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classPlatform_1ad92a17239fbf11ba33d557fdc31774d3" prot="private" static="no" mutable="no">
+        <type>SDL_Renderer *</type>
+        <definition>SDL_Renderer* Platform::renderer</definition>
+        <argsstring></argsstring>
+        <name>renderer</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the SDL renderer. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Platform.h" line="58" column="18" bodyfile="include/Platform.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classPlatform_1a404243b7a3b462618d99b9004deeff39" prot="private" static="no" mutable="no">
+        <type>SDL_Texture *</type>
+        <definition>SDL_Texture* Platform::texture</definition>
+        <argsstring></argsstring>
+        <name>texture</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer to the SDL texture used for rendering. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Platform.h" line="59" column="17" bodyfile="include/Platform.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classPlatform_1a089227641c0f5f2e8e714415b9b0354e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Platform::Platform</definition>
+        <argsstring>(const char *title, int windowWidth, int windowHeight, int textureWidth, int textureHeight)</argsstring>
+        <name>Platform</name>
+        <param>
+          <type>const char *</type>
+          <declname>title</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>windowWidth</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>windowHeight</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>textureWidth</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>textureHeight</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a <ref refid="classPlatform" kindref="compound">Platform</ref> object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>title</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The title of the window. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>windowWidth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The width of the window in pixels. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>windowHeight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The height of the window in pixels. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>textureWidth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The width of the CHIP-8 screen texture. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>textureHeight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The height of the CHIP-8 screen texture. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Platform.h" line="31" column="5" bodyfile="src/platform/Platform.cpp" bodystart="3" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classPlatform_1a13b5e4ef946b8a2fe38d22014145ab68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Platform::~Platform</definition>
+        <argsstring>()</argsstring>
+        <name>~Platform</name>
+        <briefdescription>
+<para>Destroys the <ref refid="classPlatform" kindref="compound">Platform</ref> object and cleans up SDL resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Platform.h" line="36" column="5" bodyfile="src/platform/Platform.cpp" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classPlatform_1a53dd8f6bb253fe0ef833468d69770ec5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void Platform::Update</definition>
+        <argsstring>(const void *buffer, int pitch)</argsstring>
+        <name>Update</name>
+        <param>
+          <type>const void *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>pitch</declname>
+        </param>
+        <briefdescription>
+<para>Updates the display with new pixel data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A pointer to the pixel data buffer. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pitch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number of bytes per row in the buffer. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Platform.h" line="44" column="10" bodyfile="src/platform/Platform.cpp" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classPlatform_1ace6ed416cf20d95bf20e7b3fb5106bf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool Platform::ProcessInput</definition>
+        <argsstring>(uint8_t *keys)</argsstring>
+        <name>ProcessInput</name>
+        <param>
+          <type>uint8_t *</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Processes user input and updates the CHIP-8 keypad state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the CHIP-8 keypad state array (16 keys). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if the user wants to quit, otherwise false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/Platform.h" line="52" column="10" bodyfile="src/platform/Platform.cpp" bodystart="31" bodyend="227"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+<para>Handles the window, rendering, and input for the CHIP-8 emulator using SDL. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/Platform.h" line="20" column="1" bodyfile="include/Platform.h" bodystart="19" bodyend="60"/>
+    <listofallmembers>
+      <member refid="classPlatform_1a089227641c0f5f2e8e714415b9b0354e" prot="public" virt="non-virtual"><scope>Platform</scope><name>Platform</name></member>
+      <member refid="classPlatform_1ace6ed416cf20d95bf20e7b3fb5106bf9" prot="public" virt="non-virtual"><scope>Platform</scope><name>ProcessInput</name></member>
+      <member refid="classPlatform_1ad92a17239fbf11ba33d557fdc31774d3" prot="private" virt="non-virtual"><scope>Platform</scope><name>renderer</name></member>
+      <member refid="classPlatform_1a435f26b46034d12585d42f611d92327e" prot="private" virt="non-virtual"><scope>Platform</scope><name>TestPlatform</name></member>
+      <member refid="classPlatform_1a404243b7a3b462618d99b9004deeff39" prot="private" virt="non-virtual"><scope>Platform</scope><name>texture</name></member>
+      <member refid="classPlatform_1a53dd8f6bb253fe0ef833468d69770ec5" prot="public" virt="non-virtual"><scope>Platform</scope><name>Update</name></member>
+      <member refid="classPlatform_1a9d05b1e6b667c8a65d61f5e600191329" prot="private" virt="non-virtual"><scope>Platform</scope><name>window</name></member>
+      <member refid="classPlatform_1a13b5e4ef946b8a2fe38d22014145ab68" prot="public" virt="non-virtual"><scope>Platform</scope><name>~Platform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

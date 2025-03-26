@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.17">
+  <compound refid="classChip8" kind="class"><name>Chip8</name>
+    <member refid="classChip8_1a5a07fa4e49d0b45c235eaadf3ccfcdbd" kind="typedef"><name>Chip8Func</name></member>
+    <member refid="classChip8_1a1b575873ada4d2b9126cc54c10d236db" kind="variable"><name>registers</name></member>
+    <member refid="classChip8_1a0dc1d403a9a3ebee8edffc81104bce89" kind="variable"><name>memory</name></member>
+    <member refid="classChip8_1a2af12650003a8316e6299cef275d903e" kind="variable"><name>index</name></member>
+    <member refid="classChip8_1a4cf699335179f41d2777e350beb3dddb" kind="variable"><name>pc</name></member>
+    <member refid="classChip8_1aaa0bc0e6b9966f9a35fa90f9073048cb" kind="variable"><name>stack</name></member>
+    <member refid="classChip8_1ada80292af5ea1c7283b200c7e136b28d" kind="variable"><name>sp</name></member>
+    <member refid="classChip8_1a8760493931a1209a207eb9d9f1995f00" kind="variable"><name>delayTimer</name></member>
+    <member refid="classChip8_1a6273017540576b43e1b79ed264029dc1" kind="variable"><name>soundTimer</name></member>
+    <member refid="classChip8_1ac3f6f0e56e24634cadc992029833fe46" kind="variable"><name>keypad</name></member>
+    <member refid="classChip8_1a00f3d21aef0e4bca9f5a0c2c4effdf27" kind="variable"><name>video</name></member>
+    <member refid="classChip8_1a1030bae314b55cf858d69c08a9f0f576" kind="variable"><name>opcode</name></member>
+    <member refid="classChip8_1ad56f39e752c042eca8812fee22ede80e" kind="variable"><name>draw_flag</name></member>
+    <member refid="classChip8_1a422c34a2f3dc8e864d1235e451b8cd99" kind="variable"><name>randGen</name></member>
+    <member refid="classChip8_1a12099bc06bca5298c84e1abadc6abd5d" kind="variable"><name>randByte</name></member>
+    <member refid="classChip8_1a49ad959a2d18b5e52d218234b60674c3" kind="variable"><name>table</name></member>
+    <member refid="classChip8_1ae706009e304fef0e0073ef048acaf16e" kind="variable"><name>table0</name></member>
+    <member refid="classChip8_1a2e4130695102da74a171132808c50954" kind="variable"><name>table8</name></member>
+    <member refid="classChip8_1abe6d4153c4987ce24be21fa20c1a7654" kind="variable"><name>tableE</name></member>
+    <member refid="classChip8_1a48e443e962e5b6f0c812fb0032785fd2" kind="variable"><name>tableF</name></member>
+    <member refid="classChip8_1afcb2f9f3c0bc48762b32b4f300bd0e5d" kind="friend"><name>TestChip8</name></member>
+    <member refid="classChip8_1a6d72f2cd7b791e0da2b66e3f9dc2b751" kind="function"><name>Chip8</name></member>
+    <member refid="classChip8_1a311c9b84aded9f0c32a0c8d8b168aab0" kind="function"><name>~Chip8</name></member>
+    <member refid="classChip8_1a749133d07698b60f01c3a09d9da68ecf" kind="function"><name>get_keypad</name></member>
+    <member refid="classChip8_1a023eaff9475804dc30b172a8fbeb567e" kind="function"><name>get_video</name></member>
+    <member refid="classChip8_1a56d6e56ac1c44143b1ae398a12527ef5" kind="function"><name>LoadROM</name></member>
+    <member refid="classChip8_1a42a0b4adc145f56db8c78e91fb3c27d8" kind="function"><name>OP_00E0</name></member>
+    <member refid="classChip8_1ab378b35c24a9ca0c8efc8ed8175732c2" kind="function"><name>OP_00EE</name></member>
+    <member refid="classChip8_1a84b8dbc6bd136e941dd792bdcdacb635" kind="function"><name>OP_1nnn</name></member>
+    <member refid="classChip8_1a31d5ae177a988ac656c15e6f58b2d831" kind="function"><name>OP_2nnn</name></member>
+    <member refid="classChip8_1af8bd77b5ae887922b1a439c49a023003" kind="function"><name>OP_3xkk</name></member>
+    <member refid="classChip8_1a1c9269e6d1c14a3fdbacd4b14b5af1cd" kind="function"><name>OP_4xkk</name></member>
+    <member refid="classChip8_1a028b595e4b00f9328427a5b1b42ecda9" kind="function"><name>OP_5xy0</name></member>
+    <member refid="classChip8_1a88a38e73009a2f3c36a6cfc73b1caf27" kind="function"><name>OP_6xkk</name></member>
+    <member refid="classChip8_1a79874e5f77b4d3d6abf2d6ff58aee278" kind="function"><name>OP_7xkk</name></member>
+    <member refid="classChip8_1a0d72e54af39b07861db8f146d6e08e3b" kind="function"><name>OP_8xy0</name></member>
+    <member refid="classChip8_1acf3c5caff502b3e37ac331e4f9616e30" kind="function"><name>OP_8xy1</name></member>
+    <member refid="classChip8_1a6165dfc32aee86bdcea06e2c6db2bc19" kind="function"><name>OP_8xy2</name></member>
+    <member refid="classChip8_1a707447f4dbcd2c7893c7fe0eb7b4974f" kind="function"><name>OP_8xy3</name></member>
+    <member refid="classChip8_1a6d04cc7e4350b10d4c54af7b5e222c2c" kind="function"><name>OP_8xy4</name></member>
+    <member refid="classChip8_1a39b6095f460e927986c5fee7759fddda" kind="function"><name>OP_8xy5</name></member>
+    <member refid="classChip8_1a957e2b2bd4ba68ab15b69a02f8612844" kind="function"><name>OP_8xy6</name></member>
+    <member refid="classChip8_1abd2e774be09db233592a0e5da092fae6" kind="function"><name>OP_8xy7</name></member>
+    <member refid="classChip8_1a44df0fa024f9c2cb4e02d58a37c863f9" kind="function"><name>OP_8xyE</name></member>
+    <member refid="classChip8_1a01d5f9d78111161c8490a7bc72494a64" kind="function"><name>OP_9xy0</name></member>
+    <member refid="classChip8_1aeffd2a3c7e4492433113f2db92ee4c10" kind="function"><name>OP_Annn</name></member>
+    <member refid="classChip8_1a7ae912cf91e7c034ecbff793f2e14fb6" kind="function"><name>OP_Bnnn</name></member>
+    <member refid="classChip8_1a39864a92adc7963c323fd2103a1ed80d" kind="function"><name>OP_Cxkk</name></member>
+    <member refid="classChip8_1ae9579c58b211535fc15628266a5abae9" kind="function"><name>OP_Dxyn</name></member>
+    <member refid="classChip8_1a8e4f8dd2f117d454d5b60e5514aa57dd" kind="function"><name>OP_Ex9E</name></member>
+    <member refid="classChip8_1a0537b2069b609522c9bbba0184db2725" kind="function"><name>OP_ExA1</name></member>
+    <member refid="classChip8_1a83698f3b7ef770b02e09d44c3daace06" kind="function"><name>OP_Fx07</name></member>
+    <member refid="classChip8_1a39c1ec65d33cd718509edaaa69e2bc28" kind="function"><name>OP_Fx0A</name></member>
+    <member refid="classChip8_1a7247805f474b0d904aec2db80f4d8922" kind="function"><name>OP_Fx0A_optimized</name></member>
+    <member refid="classChip8_1a9f3b25aa9a4a63072eb570fdae10f0a5" kind="function"><name>OP_Fx15</name></member>
+    <member refid="classChip8_1a7659917688df1a2cc14747b083f06087" kind="function"><name>OP_Fx18</name></member>
+    <member refid="classChip8_1a1ba6c43bbae06d99dd0266412167daf2" kind="function"><name>OP_Fx1E</name></member>
+    <member refid="classChip8_1ace4a58f583f3c971b1dc5ae96b7e855a" kind="function"><name>OP_Fx29</name></member>
+    <member refid="classChip8_1aabcbaa3bf8bba432c06129e92c7a818f" kind="function"><name>OP_Fx33</name></member>
+    <member refid="classChip8_1a8fdbd98f87ae424cd7c3ceee230b68c9" kind="function"><name>OP_Fx55</name></member>
+    <member refid="classChip8_1a18d0410d24b6cdc71c12b39c60f49f0f" kind="function"><name>OP_Fx65</name></member>
+    <member refid="classChip8_1a106d1884815a7a5cf805f5b8d666badc" kind="function"><name>Table0</name></member>
+    <member refid="classChip8_1a3036b62ee61c7ff4a70e86cffbeaa1f8" kind="function"><name>Table8</name></member>
+    <member refid="classChip8_1a2932eef63db5c88bf76ffe8f898e11f9" kind="function"><name>TableE</name></member>
+    <member refid="classChip8_1afa8312496632b4ae9fc9692dd05b2e6b" kind="function"><name>TableF</name></member>
+    <member refid="classChip8_1ad8e7ec07e93adc8cefcd4fcda82abe8b" kind="function"><name>OP_NULL</name></member>
+    <member refid="classChip8_1a1ca55fd6f6711204240c85f9cd697956" kind="function"><name>Cycle</name></member>
+    <member refid="classChip8_1a956e600bcf40768aed2b468f6809e737" kind="function"><name>filenameHandling</name></member>
+    <member refid="classChip8_1aec9b04a70447e88d7e7ff44a2ec8163b" kind="function"><name>InitChip8</name></member>
+    <member refid="classChip8_1a9a54062b429a70e9cc45d836b182e3a5" kind="function"><name>InitializeTables</name></member>
+  </compound>
+  <compound refid="classPlatform" kind="class"><name>Platform</name>
+    <member refid="classPlatform_1a435f26b46034d12585d42f611d92327e" kind="friend"><name>TestPlatform</name></member>
+    <member refid="classPlatform_1a9d05b1e6b667c8a65d61f5e600191329" kind="variable"><name>window</name></member>
+    <member refid="classPlatform_1ad92a17239fbf11ba33d557fdc31774d3" kind="variable"><name>renderer</name></member>
+    <member refid="classPlatform_1a404243b7a3b462618d99b9004deeff39" kind="variable"><name>texture</name></member>
+    <member refid="classPlatform_1a089227641c0f5f2e8e714415b9b0354e" kind="function"><name>Platform</name></member>
+    <member refid="classPlatform_1a13b5e4ef946b8a2fe38d22014145ab68" kind="function"><name>~Platform</name></member>
+    <member refid="classPlatform_1a53dd8f6bb253fe0ef833468d69770ec5" kind="function"><name>Update</name></member>
+    <member refid="classPlatform_1ace6ed416cf20d95bf20e7b3fb5106bf9" kind="function"><name>ProcessInput</name></member>
+  </compound>
+  <compound refid="Chip8_8h" kind="file"><name>Chip8.h</name>
+  </compound>
+  <compound refid="Chip8__common_8h" kind="file"><name>Chip8_common.h</name>
+    <member refid="Chip8__common_8h_1a1e4d190972aead9a740ecc82850aec4a" kind="variable"><name>DEFAULT_VIDEO_SCALE</name></member>
+    <member refid="Chip8__common_8h_1a88405c7c994bd7fd67174d4c1114c649" kind="variable"><name>DEFAULT_CYCLE_DELAY</name></member>
+    <member refid="Chip8__common_8h_1ad9ccf34725559026ea44950aa3b76a7a" kind="variable"><name>START_ADDRESS</name></member>
+    <member refid="Chip8__common_8h_1aba0a7d70c0238e8d7da879b4fa81eb4f" kind="variable"><name>FONTSET_START_ADDRESS</name></member>
+    <member refid="Chip8__common_8h_1abee21fac9ef087a6928ff69fcebdcc0a" kind="variable"><name>FONT_SIZE</name></member>
+    <member refid="Chip8__common_8h_1a74c382836b3154349485b726985abcef" kind="variable"><name>MEMORY_SIZE</name></member>
+    <member refid="Chip8__common_8h_1af606dd29a060e0be4db1ef26d6c8b6c2" kind="variable"><name>VIDEO_WIDTH</name></member>
+    <member refid="Chip8__common_8h_1afa371e06a264d544473951fc2c846830" kind="variable"><name>VIDEO_HEIGHT</name></member>
+    <member refid="Chip8__common_8h_1a2a8bbb4edc9c75dc36d9579b8b69909e" kind="variable"><name>FONTSET_SIZE</name></member>
+    <member refid="Chip8__common_8h_1a9f3dd0d1a2b0d5d9f785cc1437fed525" kind="variable"><name>fontset</name></member>
+    <member refid="Chip8__common_8h_1ab17ec02f1b62065b7d82bb1939df8419" kind="variable"><name>NUM_REGISTERS</name></member>
+    <member refid="Chip8__common_8h_1a56d0e53fb55fc4510a12e2a5d17efbb6" kind="variable"><name>STACK_SIZE</name></member>
+    <member refid="Chip8__common_8h_1a12d17f49f5c98eaa66dbbf5419fa3059" kind="variable"><name>NUM_KEYS</name></member>
+  </compound>
+  <compound refid="Platform_8h" kind="file"><name>Platform.h</name>
+  </compound>
+  <compound refid="Chip8_8cpp" kind="file"><name>Chip8.cpp</name>
+  </compound>
+  <compound refid="Opcodes_8cpp" kind="file"><name>Opcodes.cpp</name>
+  </compound>
+  <compound refid="CMakeLists_8txt" kind="file"><name>CMakeLists.txt</name>
+    <member refid="CMakeLists_8txt_1a8cb2f4d6d97f3dff602c7b24cd3a5b6b" kind="function"><name>get_filename_component</name></member>
+  </compound>
+  <compound refid="gro__main_8cpp" kind="file"><name>gro_main.cpp</name>
+    <member refid="gro__main_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="main_8cpp" kind="file"><name>main.cpp</name>
+    <member refid="main_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="Platform_8cpp" kind="file"><name>Platform.cpp</name>
+  </compound>
+  <compound refid="dir_1d0dbcc58d36c70824090360a8703484" kind="dir"><name>src/chip8</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_4b68c2fef3e151b6b93d5e93b14f1857" kind="dir"><name>src/platform</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+</doxygenindex>

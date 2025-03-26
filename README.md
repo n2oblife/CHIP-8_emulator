@@ -41,7 +41,8 @@ This repository is organized as follows:
 CHIP-8_emulator/
 ├── .github/           # Handles GitHub CI/CD
 ├── .gitlab-ci.yml     # Handles GitLab CI/CD
-├── docs/              # Documentation files
+├── refs/              # Reference for the project development
+├── docs/              # Documentation of the project
 ├── include/           # Header files (e.g., Chip8.h, Chip8Constants.h)
 ├── src/               # Source files (e.g., Chip8.cpp, main.cpp)
 ├── tests/             # Unit tests using GoogleTest
@@ -66,7 +67,8 @@ This emulator is built using C++20 and requires the SDL2 library for rendering a
 #### On Ubuntu
 ```bash
 sudo apt update
-sudo apt install g++ libsdl2-dev make cmake
+sudo apt-get install -y g++ make cmake ninja-build libsdl2-dev doxygen doxygen-gui doxygen-latex graphviz
+sudo apt autoremove
 ```
 
 ### Building the Emulator
