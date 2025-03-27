@@ -96,6 +96,7 @@ run:
 doc:
 	@echo "====== Generating Documentation... ======"
 	@cmake --build build --target doc
+	@cd docs/latex && pdflatex refman.tex && mv refman.pdf ../chip8_doc.pdf && rm -rf ../latex/
 	@echo "====== Documentation Generated in build/docs ======"
 
 
