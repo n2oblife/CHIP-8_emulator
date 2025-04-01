@@ -6,10 +6,14 @@ CXXFLAGS := -std=c++20 -Wall
 PROJECT_DIR := $(shell pwd)
 SRC_DIR := $(PROJECT_DIR)/src
 INCLUDE_DIR := $(PROJECT_DIR)/include
+TEST_SRC_DIR := $(PROJECT_DIR)/tests
 BUILD_DIR := $(PROJECT_DIR)/build
 OBJ_DIR := $(BUILD_DIR)/obj
 LIB_DIR := $(BUILD_DIR)/lib
 BIN_DIR := $(BUILD_DIR)/bin
+TEST_BUILD_DIR := $(BUILD_DIR)/tests
+DOCS_DIR := $(BUILD_DIR)/docs
+DOCS_PDF_DIR := $(PROJECT_DIR)/docs
 
 # Source files
 SRCS := $(wildcard $(SRC_DIR)/*.cpp)
@@ -35,14 +39,19 @@ BUILD_TYPE := Release
 .PHONY: all
 all:
 	@echo "====== Starting the build process... ======"
-	@make depend BUILD_TYPE=$(BUILD_TYPE)
-	@make build BUILD_TYPE=$(BUILD_TYPE)
+	@make depend BUILD_TYPE=$(word 2, $(MAKECMDGOALS))
+	@make build BUILD_TYPE=$(word 2, $(MAKECMDGOALS))
 
 .PHONY: target
 target:
 	@echo "====== Starting the build process... ======"
-	@make depend BUILD_TYPE=$(BUILD_TYPE)
-	@make build $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS)) BUILD_TYPE=$(BUILD_TYPE)
+	@if echo "$(MAKECMDGOALS)" | grep -q "coverage"; then \
+		echo "Coverage mode detected. Setting BUILD_TYPE=Debug"; \
+		BUILD_TYPE=Debug; \
+	fi; \
+	make depend BUILD_TYPE=$$BUILD_TYPE
+	@make build $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS)) BUILD_TYPE=$$BUILD_TYPE
+
 
 .PHONY: depend
 depend:
@@ -64,19 +73,38 @@ clean:
 	@rm -rf test_detail.json
 	@echo "====== Clean up complete! ======"
 
+.PHONY: scrub
+scrub:
+	@echo "====== Removing coverage files... ======"
+	@find $(BUILD_DIR) -name "*.gcda" -delete
+	@find $(BUILD_DIR) -name "*.gcno" -delete
+	@find $(BUILD_DIR) -name "*.gcov" -delete
+	@rm -rf $(BUILD_DIR)/coverage
+
+# Using "-" in front of a command, ignores the errors
 .PHONY: tests
 tests:
 	@echo "====== Running tests... ======"
+	@if [ ! -f "${TARGET_TESTS}" ]; then \
+		echo "Test binary not found! Building chip8_test..."; \
+		make target chip8_tests BUILD_TYPE=Debug; \
+	else \
+		echo "Test binary found. Running tests..."; \
+	fi
 	@echo "Log saved in $(REPORT)"
-	@$(TARGET_TESTS) --gtest_output=$(strip $(EXTENSION)):$(REPORT)
+	@-$(TARGET_TESTS) --gtest_output=$(strip $(EXTENSION)):$(REPORT) --coverage
 	@echo "====== Tests complete! ======"
+
 
 .PHONY: run
 run:
+	@echo "====== Running binary... ======"
 	@if [ ! -f "${TARGET}" ]; then \
-		echo "====== Error: '${TARGET}' not found! Build the project first. ======"; \
-		exit 1; \
-	fi;
+		echo "Test binary not found! Building chip8..."; \
+		make target chip8; \
+	else \
+		echo "Binary found. Running the software...";\
+	fi
 	@ROM_FILE=$(word 2, $(MAKECMDGOALS)); \
 	if echo "$$ROM_FILE" | grep -Eqs "^(http|https)://"; then \
 		echo "====== URL detected, downloading ROM: $$ROM_FILE ======"; \
@@ -92,12 +120,43 @@ run:
 %:
 	@:
 
+
 .PHONY: doc
 doc:
 	@echo "====== Generating Documentation... ======"
-	@cmake --build build --target doc
-	@cd docs/latex && pdflatex refman.tex && mv refman.pdf ../chip8_doc.pdf && rm -rf ../latex/
-	@echo "====== Documentation Generated in build/docs ======"
+	@mkdir -p $(DOCS_DIR)
+	@cmake --build $(BUILD_DIR) --target doc
+	@cd $(DOCS_DIR)/latex && pdflatex refman.tex
+	@mv $(DOCS_DIR)/latex/refman.pdf $(DOCS_PDF_DIR)/chip8_doc.pdf
+	@echo "====== Documentation Generated in docs ======"
+
+.PHONY: gcov
+gcov: tests
+	@echo "====== Running gcov for coverage analysis... ======"
+	@mkdir -p $(BUILD_DIR)/coverage
+	@cd $(BUILD_DIR) && find . -name "*.gcda" -exec gcov -b {} + | tee $(BUILD_DIR)/coverage/CoverageSummary.txt
+	@echo "-- Coverage files saved to $(BUILD_DIR)/coverage"
+	@echo "Check $(BUILD_DIR)/coverage/CoverageSummary.txt for details."
+
+.PHONY: coverage
+coverage: gcov
+	@echo "====== Generating HTML coverage report with gcovr... ======"
+	@which gcovr >/dev/null 2>&1 || { echo "Error: gcovr not found. Install it with 'pip install gcovr'."; exit 1; }
+	@gcovr -r $(PROJECT_DIR) --exclude tests/ --exclude CMakeFiles/ \
+	    --filter "$(PROJECT_DIR)/src/.*" --filter "$(PROJECT_DIR)/include/.*" \
+	    --html --html-details -o $(BUILD_DIR)/coverage/index.html
+	@echo "-- Open $(BUILD_DIR)/coverage/index.html in a browser to view the coverage report."
+
+.PHONY: lcoverage
+lcoverage: tests
+	@echo "====== Generating Coverage using lcov... ======"
+	@mkdir -p $(BUILD_DIR)/coverage
+	@lcov --capture --directory $(BUILD_DIR) --output-file $(BUILD_DIR)/coverage/coverage.info
+	@lcov --remove $(BUILD_DIR)/coverage/coverage.info '*9/*' '*tests/*' '*gtest*' '*third_party/*' '*external/*' --output-file $(BUILD_DIR)/coverage/coverage_filtered.info
+	@genhtml $(BUILD_DIR)/coverage/coverage_filtered.info --output-directory $(BUILD_DIR)/coverage
+	@echo "Coverage report saved to $(BUILD_DIR)/coverage/index.html"
+	@echo "Open $(BUILD_DIR)/coverage/index.html in a browser to view the report."
+
 
 
 .PHONY: graph
@@ -123,9 +182,9 @@ help:
 	@echo "  depend [Release|Debug|MinSizeRel]- Run CMake configuration only."
 	@echo "  build [target_name]              - Build the project or a specific target using CMake."
 	@echo "  clean                            - Remove build files, logs, and test reports."
-	@echo "  tests                            - Run unit tests using GoogleTest and save logs."
+	@echo "  tests [report_name]              - Run unit tests using GoogleTest and save logs."
 	@echo "  run <ROM>                        - Launch the emulator with a specified ROM file or its URL."
-	@echo "  doc                        - Launch the emulator with a specified ROM file or its URL."
+	@echo "  doc                        	  - Generate a PDF documentation."
 	@echo "  graph                            - Generate a CMake dependency graph for visualization."
 	@echo "  help                             - Display this help message."
 	@echo ""

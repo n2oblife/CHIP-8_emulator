@@ -9,7 +9,7 @@ install_deps:
   stage: prepare
   script:
     - apt-get update
-    - apt-get install -y g++ make cmake ninja-build libsdl2-dev doxygen doxygen-gui doxygen-latex graphviz #gcov and lcov
+    - apt-get install -y g++ make cmake ninja-build libsdl2-dev doxygen doxygen-gui doxygen-latex graphviz gcov lcov gcovr
   cache:
     key: apt-cache
     paths:

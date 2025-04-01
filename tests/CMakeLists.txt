@@ -45,10 +45,26 @@ target_link_libraries(chip8_tests PRIVATE
     chip8_lib gtest gtest_main
 )
 
+if(ENABLE_COVERAGE)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        message(STATUS "Enabling coverage build...")
+
+        # Add necessary compiler and linker flags for coverage
+        add_compile_options(--coverage -fprofile-arcs -ftest-coverage)
+        add_link_options(--coverage)
+
+        # Ensure CMake does not optimize or strip debugging info
+        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} --coverage")
+        set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} --coverage")
+
+    else()
+        message(WARNING "Code coverage is only supported with GCC or Clang.")
+    endif()
+endif()
+
 # Register the tests with CTest
 enable_testing()
 add_test(NAME Chip8Tests 
     COMMAND chip8_tests 
     # WORKING_DIRECTORY 
     )
-

@@ -67,7 +67,7 @@ This emulator is built using C++20 and requires the SDL2 library for rendering a
 #### On Ubuntu
 ```bash
 sudo apt update
-sudo apt-get install -y g++ make cmake ninja-build libsdl2-dev doxygen doxygen-gui doxygen-latex graphviz
+sudo apt-get install -y g++ make cmake ninja-build libsdl2-dev doxygen doxygen-gui doxygen-latex graphviz gcov lcov gcovr
 sudo apt autoremove
 ```
 

@@ -1,15 +1,15 @@
 # Project settings
-PROJECT_NAME           = "CHIP-8 Emulator"
-PROJECT_NUMBER         = 0.3
-OUTPUT_DIRECTORY       = /home/zk/Git_Repo/CHIP-8_emulator/docs
-INPUT                 = /home/zk/Git_Repo/CHIP-8_emulator/include /home/zk/Git_Repo/CHIP-8_emulator/src
-RECURSIVE             = YES
+PROJECT_NAME            = @PROJECT_NAME@
+PROJECT_NUMBER          = @PROJECT_VERSION@
+OUTPUT_DIRECTORY        = @DOXYGEN_OUTPUT_DIR@
+INPUT                   = @DOXYGEN_INPUT_DIR@
+RECURSIVE               = YES
 
 # Output formats
-GENERATE_HTML         = NO
-GENERATE_LATEX        = YES
-GENERATE_XML          = NO
-GENERATE_TREEVIEW     = YES
+GENERATE_HTML           = NO
+GENERATE_LATEX          = YES
+GENERATE_XML            = NO
+GENERATE_TREEVIEW       = YES
 
 # Use README.md as the main page
-USE_MDFILE_AS_MAINPAGE= /home/zk/Git_Repo/CHIP-8_emulator/README.md
+USE_MDFILE_AS_MAINPAGE  = @README_FILE@

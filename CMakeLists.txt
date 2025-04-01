@@ -1,3 +1,4 @@
+#TODO: handle better the dependencies to avoid installing everything on the computer
 message(STATUS "======= COMPILATION PIPELINE CHECKS ======")
 cmake_minimum_required(VERSION 3.14)
 
@@ -11,26 +12,40 @@ project(Chip8
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(TARGET ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/chip8)
+set(TARGET_TESTS ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/tests/chip8_tests)
+set(CMAKE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(CMAKE_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
+set(CMAKE_TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests)
+set(README_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 elseif("${CMAKE_BUILD_TYPE}" STREQUAL "debug")
     set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
+elseif("${CMAKE_BUILD_TYPE}" STREQUAL "minsizerel")
+    set(CMAKE_BUILD_TYPE MinSizeRel CACHE STRING "Build type" FORCE)
 endif()
+
 if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-    option(ENABLE_TESTS "Enable Chip8 Emulator Tests" ON)
+    set(ENABLE_TESTS ON CACHE BOOL "Enable Chip8 Emulator Tests" FORCE)
+    set(ENABLE_COVERAGE ON CACHE BOOL "Enable code coverage analysis" FORCE)
     # Enable STATUSs for debug
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-        add_compile_options(-Wall -Wextra -Wpedantic)
+        add_compile_options(-Wall -Wextra -Wpedantic -o0 -g)
     elseif (MSVC)
         add_compile_options(/W4 /WX)
     endif()
+else()
+    set(ENABLE_COVERAGE OFF CACHE BOOL "Enable code coverage analysis" FORCE)
 endif()
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 message(STATUS "======= FETCHING DEPENDENCIES ======")
 
@@ -166,30 +181,28 @@ endif()
 if(DOXYGEN_EXECUTABLE)
     message(STATUS "Doxygen executable: ${DOXYGEN_EXECUTABLE}")
 
-    set(DOXYGEN_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/docs)
-    set(DOXYGEN_CONFIG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
+    set(DOXYGEN_INPUT_DIR "${CMAKE_INCLUDE_DIR} ${CMAKE_SOURCE_DIR}")
+    set(DOXYGEN_OUTPUT_DIR ${CMAKE_BINARY_DIR}/docs)
+    set(DOXYGEN_CONFIG_FILE ${CMAKE_BINARY_DIR}/docs/Doxyfile.in)
     
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in ${DOXYGEN_CONFIG_FILE} @ONLY)
 
     add_custom_target(doc
         COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIG_FILE}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/docs
         COMMENT "Generating API documentation with Doxygen"
         VERBATIM
     )
 
 endif()
 
-
-
-
 message(STATUS "====== LINKING PROJECT ======")
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
+add_subdirectory(${CMAKE_SOURCE_DIR})
 
 
 if(ENABLE_TESTS)
     message(STATUS "====== LINKING TESTS ======")
-    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/tests)
+    add_subdirectory(${CMAKE_TEST_DIR})
 endif()
 
 # Installation (Optional)

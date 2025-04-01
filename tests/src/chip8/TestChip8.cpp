@@ -114,7 +114,7 @@ TEST_F(TestChip8, CycleTimers) {
     for (int i=1; i<testData.size()/2; i++){
         chip8.Cycle();
 
-        EXPECT_EQ(get_delayTimer(), testData.size()/2-i) << "Delay timer was not decremented.";
-        EXPECT_EQ(get_soundTimer(), testData.size()/2-i) << "Sound timer was not decremented.";
+        ASSERT_EQ(get_delayTimer(), testData.size()/2-i) << "Delay timer was not decremented.";
+        ASSERT_EQ(get_soundTimer(), testData.size()/2-i) << "Sound timer was not decremented.";
     }
 }
