@@ -130,25 +130,8 @@ doc:
 	@mv $(DOCS_DIR)/latex/refman.pdf $(DOCS_PDF_DIR)/chip8_doc.pdf
 	@echo "====== Documentation Generated in docs ======"
 
-.PHONY: gcov
-gcov: tests
-	@echo "====== Running gcov for coverage analysis... ======"
-	@mkdir -p $(BUILD_DIR)/coverage
-	@cd $(BUILD_DIR) && find . -name "*.gcda" -exec gcov -b {} + | tee $(BUILD_DIR)/coverage/CoverageSummary.txt
-	@echo "-- Coverage files saved to $(BUILD_DIR)/coverage"
-	@echo "Check $(BUILD_DIR)/coverage/CoverageSummary.txt for details."
-
 .PHONY: coverage
-coverage: gcov
-	@echo "====== Generating HTML coverage report with gcovr... ======"
-	@which gcovr >/dev/null 2>&1 || { echo "Error: gcovr not found. Install it with 'pip install gcovr'."; exit 1; }
-	@gcovr -r $(PROJECT_DIR) --exclude tests/ --exclude CMakeFiles/ \
-	    --filter "$(PROJECT_DIR)/src/.*" --filter "$(PROJECT_DIR)/include/.*" \
-	    --html --html-details -o $(BUILD_DIR)/coverage/index.html
-	@echo "-- Open $(BUILD_DIR)/coverage/index.html in a browser to view the coverage report."
-
-.PHONY: lcoverage
-lcoverage: tests
+coverage: tests
 	@echo "====== Generating Coverage using lcov... ======"
 	@mkdir -p $(BUILD_DIR)/coverage
 	@lcov --capture --directory $(BUILD_DIR) --output-file $(BUILD_DIR)/coverage/coverage.info
@@ -156,7 +139,6 @@ lcoverage: tests
 	@genhtml $(BUILD_DIR)/coverage/coverage_filtered.info --output-directory $(BUILD_DIR)/coverage
 	@echo "Coverage report saved to $(BUILD_DIR)/coverage/index.html"
 	@echo "Open $(BUILD_DIR)/coverage/index.html in a browser to view the report."
-
 
 
 .PHONY: graph
