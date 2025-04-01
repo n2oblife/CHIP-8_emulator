@@ -11,7 +11,12 @@ RUN apt-get update \
 WORKDIR /app
 RUN git clone https://github.com/n2oblife/CHIP-8_emulator.git
 
-RUN cd CHIP-8_emulator/ && make all debug && make doc && make coverage
+# RUN cd CHIP-8_emulator/ && make all debug && make doc && make coverage
+
+RUN cd CHIP-8_emulator/ && make all debug
+RUN cd CHIP-8_emulator/ && make coverage
+RUN cd CHIP-8_emulator/ && make doc
+
 
 
 # Final image (runtime) if need for opitmization

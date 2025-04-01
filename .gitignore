@@ -87,3 +87,4 @@ test_opcode.ch8
 
 # gitlab ci
 gitlab_ci/includes.yml
+*temp_file*

@@ -36,22 +36,15 @@ REPORT = $(LOG_DIR)/$(REPORT_NAME)_$(strip $(COMMIT_HASH))_$(strip $(TIMESTAMP))
 # Default build type
 BUILD_TYPE := Release
 
+# Default to Debug build type if none is provided
+BUILD_TYPE ?= Debug
+
+# Handle the build target based on the provided MAKECMDGOALS
 .PHONY: all
 all:
 	@echo "====== Starting the build process... ======"
-	@make depend BUILD_TYPE=$(word 2, $(MAKECMDGOALS))
-	@make build BUILD_TYPE=$(word 2, $(MAKECMDGOALS))
-
-.PHONY: target
-target:
-	@echo "====== Starting the build process... ======"
-	@if echo "$(MAKECMDGOALS)" | grep -q "coverage"; then \
-		echo "Coverage mode detected. Setting BUILD_TYPE=Debug"; \
-		BUILD_TYPE=Debug; \
-	fi; \
-	make depend BUILD_TYPE=$$BUILD_TYPE
-	@make build $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS)) BUILD_TYPE=$$BUILD_TYPE
-
+	@make depend BUILD_TYPE=$(BUILD_TYPE)
+	@make build BUILD_TYPE=$(BUILD_TYPE)
 
 .PHONY: depend
 depend:
@@ -63,6 +56,27 @@ build:
 	@echo "====== Building project... ======"
 	@cmake --build $(BUILD_DIR) -j$(nproc) --target $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 	@echo "====== Build complete! ======"
+
+# Handle debug or release based on the command line arguments
+.PHONY: debug
+debug:
+	@echo "Setting build type to Debug"
+	@make all BUILD_TYPE=Debug
+
+.PHONY: release
+release:
+	@echo "Setting build type to Release"
+	@make all BUILD_TYPE=Release
+
+.PHONY: target
+target:
+	@echo "====== Starting the build process... ======"
+	@if echo "$(MAKECMDGOALS)" | grep -q "coverage"; then \
+		echo "Coverage mode detected. Setting BUILD_TYPE=Debug"; \
+		BUILD_TYPE=Debug; \
+	fi; \
+	make depend BUILD_TYPE=$$BUILD_TYPE
+	@make build $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS)) BUILD_TYPE=$$BUILD_TYPE
 
 .PHONY: clean
 clean:
@@ -119,7 +133,6 @@ run:
 # Allow running with `make run <ROM>`
 %:
 	@:
-
 
 .PHONY: doc
 doc:
