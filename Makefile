@@ -33,11 +33,8 @@ COMMIT_HASH = $(shell git rev-parse --short HEAD)  # Git commit hash
 # REPORT = $(REPORT_NAME)_$(COMMIT_HASH)_$(TIMESTAMP).$(EXTENSION)
 REPORT = $(LOG_DIR)/$(REPORT_NAME)_$(strip $(COMMIT_HASH))_$(strip $(TIMESTAMP)).$(EXTENSION)
 
-# Default build type
-BUILD_TYPE := Release
-
 # Default to Debug build type if none is provided
-BUILD_TYPE ?= Debug
+BUILD_TYPE ?= Release
 
 # Handle the build target based on the provided MAKECMDGOALS
 .PHONY: all
@@ -54,7 +51,7 @@ depend:
 .PHONY: build
 build:
 	@echo "====== Building project... ======"
-	@cmake --build $(BUILD_DIR) -j$(nproc) --target $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+	@cmake --build $(BUILD_DIR) -j$(nproc)
 	@echo "====== Build complete! ======"
 
 # Handle debug or release based on the command line arguments
@@ -62,11 +59,6 @@ build:
 debug:
 	@echo "Setting build type to Debug"
 	@make all BUILD_TYPE=Debug
-
-.PHONY: release
-release:
-	@echo "Setting build type to Release"
-	@make all BUILD_TYPE=Release
 
 .PHONY: target
 target:

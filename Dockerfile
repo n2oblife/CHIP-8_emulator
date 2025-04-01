@@ -13,7 +13,7 @@ RUN git clone https://github.com/n2oblife/CHIP-8_emulator.git
 
 # RUN cd CHIP-8_emulator/ && make all debug && make doc && make coverage
 
-RUN cd CHIP-8_emulator/ && make all debug
+RUN cd CHIP-8_emulator/ && make debug
 RUN cd CHIP-8_emulator/ && make coverage
 RUN cd CHIP-8_emulator/ && make doc
 
