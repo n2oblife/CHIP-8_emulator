@@ -125,6 +125,7 @@ else()
     
     FetchContent_GetProperties(imgui)
     message(STATUS "IMGUI libraries information: ${imgui_SOURCE_DIR}")
+    message(STATUS "oh faut afficher !!!!")
     if(NOT imgui_POPULATED)
         FetchContent_Populate(imgui)
         
