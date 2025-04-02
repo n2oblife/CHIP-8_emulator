@@ -124,9 +124,8 @@ else()
     )
     
     FetchContent_GetProperties(imgui)
-    message(STATUS "IMGUI libraries information: ${imgui_SOURCE_DIR}")
-    message(STATUS "oh faut afficher !!!!")
     if(NOT imgui_POPULATED)
+        message(STATUS "IMGUI libraries information: ${imgui_SOURCE_DIR}")
         FetchContent_Populate(imgui)
         
         # ImGui doesn't have a CMakeLists.txt, so we need to create a target for it
@@ -152,6 +151,7 @@ else()
             target_link_libraries(imgui PUBLIC SDL2-static)
         endif()
     endif()
+    message(STATUS "oh faut afficher !!!!")
 
     set(IMGUI_INCLUDE_DIRS "${IMGUI_SOURCE_DIR}/include" "${IMGUI_BINARY_DIR}/include")
     set(IMGUI IMGUI-static)
