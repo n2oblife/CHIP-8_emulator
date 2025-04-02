@@ -129,15 +129,16 @@ else()
         
         # ImGui doesn't have a CMakeLists.txt, so we need to create a target for it
         file(GLOB_RECURSE IMGUI_SRC_FILES "${imgui_SOURCE_DIR}/*.cpp")
-        add_library(imgui
+        add_library(imgui STATIC
             # ${IMGUI_SRC_FILES}
             ${imgui_SOURCE_DIR}/imgui.cpp
+            ${imgui_SOURCE_DIR}/imgui.h
             ${imgui_SOURCE_DIR}/imgui_demo.cpp
             ${imgui_SOURCE_DIR}/imgui_draw.cpp
             ${imgui_SOURCE_DIR}/imgui_tables.cpp
             ${imgui_SOURCE_DIR}/imgui_widgets.cpp
             ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.cpp
-            ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+            # ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
         )
         
         target_include_directories(imgui PUBLIC 

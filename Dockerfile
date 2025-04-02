@@ -1,7 +1,7 @@
 # Docker made for testing the gitlab ci/cd pipeline
 # FROM debian:bookworm-slim AS build
 # FROM debian:bookworm-slim
-FROM debian:stable
+FROM img_essential
 
 # Dependencies
 RUN apt-get update \
@@ -28,13 +28,13 @@ RUN cd CHIP-8_emulator/ && make doc
 
 # Add color to the terminal and aliase
 RUN echo "TERM=xterm-256color" >> /etc/bash.bashrc &&\
-echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc &&\
-echo "alias grep='grep --color=auto'" >> /etc/bash.bashrc &&\
-echo "alias fgrep='fgrep --color=auto'" >> /etc/bash.bashrc &&\
-echo "alias egrep='egrep --color=auto'" >> /etc/bash.bashrc &&\
-echo "alias ll='ls -alF'" >> /etc/bash.bashrc &&\
-echo "alias la='ls -A'" >> /etc/bash.bashrc &&\
-echo "alias l='ls -CF'" >> /etc/bash.bashrc
+    echo "alias ls='ls --color=auto'" >> /etc/bash.bashrc &&\
+    echo "alias grep='grep --color=auto'" >> /etc/bash.bashrc &&\
+    echo "alias fgrep='fgrep --color=auto'" >> /etc/bash.bashrc &&\
+    echo "alias egrep='egrep --color=auto'" >> /etc/bash.bashrc &&\
+    echo "alias ll='ls -alF'" >> /etc/bash.bashrc &&\
+    echo "alias la='ls -A'" >> /etc/bash.bashrc &&\
+    echo "alias l='ls -CF'" >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
 # CMD ["tail", "-f", "/dev/null"]
