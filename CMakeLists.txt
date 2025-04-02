@@ -152,7 +152,7 @@ else()
 
     set(IMGUI_INCLUDE_DIRS "${IMGUI_SOURCE_DIR}/include" "${IMGUI_BINARY_DIR}/include")
     set(IMGUI IMGUI-static)
-    message(STATUS "IMGUI libraries fetched: ${IMGUI_LIBRARIES}")
+    message(STATUS "IMGUI libraries fetched: ${imgui_SOURCE_DIR}")
 endif()
 
 

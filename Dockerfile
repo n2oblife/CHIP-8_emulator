@@ -1,6 +1,7 @@
 # Docker made for testing the gitlab ci/cd pipeline
 # FROM debian:bookworm-slim AS build
-FROM debian:bookworm-slim
+# FROM debian:bookworm-slim
+FROM debian:stable
 
 # Dependencies
 RUN apt-get update \
@@ -9,6 +10,8 @@ RUN apt-get update \
     && apt-get clean
 
 WORKDIR /app
+# RUN mkdir CHIP-8_emulator
+# COPY ../CHIP-8_emulator CHIP-8_emulator
 RUN git clone https://github.com/n2oblife/CHIP-8_emulator.git
 
 # RUN cd CHIP-8_emulator/ && make all debug && make doc && make coverage
@@ -34,3 +37,4 @@ echo "alias la='ls -A'" >> /etc/bash.bashrc &&\
 echo "alias l='ls -CF'" >> /etc/bash.bashrc
 
 CMD ["/bin/bash"]
+# CMD ["tail", "-f", "/dev/null"]

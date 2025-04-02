@@ -75,7 +75,7 @@ sudo apt autoremove
 Clone this repository and run the `Makefile` to build the project:
 
 ```bash
-git clone https://github.com/yourusername/CHIP-8_emulator.git
+git clone https://github.com/n2oblife/CHIP-8_emulator.git
 cd CHIP-8_emulator
 make all
 ```
