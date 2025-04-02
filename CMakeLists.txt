@@ -122,7 +122,9 @@ else()
         GIT_REPOSITORY https://github.com/ocornut/imgui.git
         GIT_TAG v1.88
     )
+    
     FetchContent_GetProperties(imgui)
+    message(STATUS "IMGUI libraries information: ${imgui_SOURCE_DIR}")
     if(NOT imgui_POPULATED)
         FetchContent_Populate(imgui)
         

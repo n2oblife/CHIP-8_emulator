@@ -60,8 +60,8 @@ message(STATUS "Linked binary")
 add_executable(chip8
     main.cpp
 )
-# add_executable(gro_main
-#     gro_main.cpp
-# )
+add_executable(gro_main
+    gro_main.cpp
+)
 
 target_link_libraries(chip8 PRIVATE chip8_lib)
