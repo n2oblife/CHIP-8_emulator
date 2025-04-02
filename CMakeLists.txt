@@ -125,19 +125,12 @@ else()
     
     FetchContent_GetProperties(imgui)
     # if(NOT imgui_POPULATED)
-        message(STATUS "IMGUI libraries information: ${imgui_SOURCE_DIR}")
         FetchContent_Populate(imgui)
-        message(STATUS "IMGUI libraries information: ${imgui_SOURCE_DIR}")
         
         # ImGui doesn't have a CMakeLists.txt, so we need to create a target for it
+        file(GLOB_RECURSE IMGUI_SRC_FILES "${imgui_SOURCE_DIR}/*.cpp")
         add_library(imgui STATIC
-            ${imgui_SOURCE_DIR}/imgui.cpp
-            ${imgui_SOURCE_DIR}/imgui_demo.cpp
-            ${imgui_SOURCE_DIR}/imgui_draw.cpp
-            ${imgui_SOURCE_DIR}/imgui_tables.cpp
-            ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-            ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl.cpp
-            ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+            ${IMGUI_SRC_FILES}
         )
         
         target_include_directories(imgui PUBLIC 
@@ -152,7 +145,6 @@ else()
             target_link_libraries(imgui PUBLIC SDL2-static)
         endif()
     # endif()
-    message(STATUS "oh faut afficher !!!!")
 
     set(IMGUI_INCLUDE_DIRS "${IMGUI_SOURCE_DIR}/include" "${IMGUI_BINARY_DIR}/include")
     set(IMGUI IMGUI-static)
