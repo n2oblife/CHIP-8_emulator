@@ -1,30 +1,18 @@
 # Docker made for testing the gitlab ci/cd pipeline
-# FROM debian:bookworm-slim AS build
-# FROM debian:bookworm-slim
-FROM img_essential
+FROM ubuntu:20.04
 
-# Dependencies
-RUN apt-get update \
-    && apt-get install -y build-essential curl git g++ python3 make cmake ninja-build libsdl2-dev doxygen doxygen-gui doxygen-latex graphviz lcov \
-    && rm -rf /var/lib/apt/lists/* \
-    && apt-get clean
+RUN apt update
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata
 
-WORKDIR /app
-# RUN mkdir CHIP-8_emulator
-# COPY ../CHIP-8_emulator CHIP-8_emulator
-RUN git clone https://github.com/n2oblife/CHIP-8_emulator.git
+COPY package_list.txt /tmp/package_list.txt
+RUN xargs apt-get install -y < /tmp/package_list.txt
+RUN rm -rf /var/lib/apt/lists/* \
+    && apt autoremove
 
+# if need to build the project
+# WORKDIR /home
+# RUN git clone https://github.com/n2oblife/CHIP-8_emulator.git
 # RUN cd CHIP-8_emulator/ && make all debug && make doc && make coverage
-
-RUN cd CHIP-8_emulator/ && make debug
-RUN cd CHIP-8_emulator/ && make coverage
-RUN cd CHIP-8_emulator/ && make doc
-
-
-
-# Final image (runtime) if need for opitmization
-# FROM debian:bookworm-slim
-# COPY --from=build /app/bin/ /app/bin/
 
 # Add color to the terminal and aliase
 RUN echo "TERM=xterm-256color" >> /etc/bash.bashrc &&\

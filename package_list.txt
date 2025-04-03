@@ -1,0 +1,14 @@
+build-essential=12.8ubuntu1.1
+cmake=3.16.3-1ubuntu1.20.04.1
+curl=7.68.0-1ubuntu2.25
+doxygen=1.8.17-0ubuntu2
+doxygen-gui=1.8.17-0ubuntu2
+doxygen-latex=1.8.17-0ubuntu2
+g++=4:9.3.0-1ubuntu2
+git=1:2.25.1-1ubuntu3.14
+graphviz=2.42.2-3build2
+lcov=1.14-2
+libsdl2-dev=2.0.10+dfsg1-3
+make=4.2.1-1.2
+ninja-build=1.10.0-1build1
+python3=3.8.2-0ubuntu2
